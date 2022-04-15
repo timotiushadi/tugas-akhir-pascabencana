@@ -1,3 +1,7 @@
+<?php
+    include 'koneksi.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,28 +82,31 @@
 <div class="popup">
   <div class="close-button">&times;</div>
     <div class="form">
-      <h2>Log In</h2>
-      <div class="form-element">
-        <label for="username">Username</label>
-        <input type="text" id="username" placeholder="Enter Username">
-      </div>
-      <div class="form-element">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter Password">
-      </div>
-      <div class="form-element">
-        <input type="checkbox" id="rememberMe">
-        <label for="rememberMe">Remember Me</label>
-      </div>
-      <div class="form-element">
-        <button>Sign in</button>
-      </div>
-      <div class="form-element">
-        <a href="#">Forgot Password</a>
-      </div>
+      <form class="form-input" action="kirim.php" method="POST">
+        <h2>Log In</h2>
+        <div class="form-element">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter Username">
+        </div>
+        <div class="form-element">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter Password">
+        </div>
+        <div class="form-element">
+          <input type="checkbox" id="rememberMe">
+          <label for="rememberMe">Remember Me</label>
+        </div>
+        <div class="form-element">
+          <button>Sign in</button>
+        </div>
+        <div class="form-element">
+          <a href="#">Forgot Password</a>
+        </div>
+      </form>
     </div>
 </div>
 
+<!-- Filter Button -->
 <div>
   <button class="filter-button">
 </div>

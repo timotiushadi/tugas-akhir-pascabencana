@@ -1,0 +1,25 @@
+<?php
+    require 'koneksi.php';
+
+    if(isset($_POST["login"])){
+      $uname = $_POST['username'];
+      $password = $_POST['password'];
+      
+      $masuk = "SELECT * FROM 'data_login_pegawai' where username='$uname' AND password='$password'";
+      $result = mysqli_query($koneksi, $masuk);
+    }
+
+    if(mysqli_num_rows($result)==1){
+        echo "<script>
+                alert('You have successfully logged in');
+              </script>"; \
+        header('Location:index.php');
+        exit();
+    }
+    else{
+        echo "<script>
+                alert('Something went wrong');
+              </script>";
+              exit(); 
+    }
+?>

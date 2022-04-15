@@ -532,7 +532,7 @@ input:checked + .slider:before {
 
 .popup{
   position: absolute;
-  z-index: 1000;
+  z-index: 0;
   top: 50%;
   left: 50%;
   opacity: 0;
@@ -551,6 +551,7 @@ input:checked + .slider:before {
   top: 50%;
   opacity: 1;
   transform:translate(-50%, -50%); scale:(1);
+  z-index: 1000;
 }
 
 .popup .close-button{
@@ -623,4 +624,10 @@ input:checked + .slider:before {
   width: 600px;
   height: 300px;
   padding-top: 60px;
+}
+
+.filter-button{
+  z-index: 1000;
+  top: 70%;
+  right: 0;
 }

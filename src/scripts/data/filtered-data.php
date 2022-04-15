@@ -30,7 +30,7 @@ foreach($json->data as $mydata)
     array_push($filteredArray, $mydata);
   }
 }
-$data = json_encode($filteredArray);
+$data = json_encode($filteredArray, JSON_PRETTY_PRINT);
 
 
 header("Content-Type: application/json");

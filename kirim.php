@@ -1,18 +1,20 @@
 <?php
-    include 'koneksi.php';
+    session_start();
+    require 'koneksi.php';
 
+    if(isset($_POST['login'])){
         $uname = $_POST['username'];
-        $password = $_POST['password'];
-        
-        $masuk = "SELECT * FROM `data_login_pegawai` where username='".$uname."' AND password='".$password."' limit 1";
+        $katasandi = $_POST['password'];
     
-        $result = mysqli_query($masuk);
-        if(mysqli_num_rows($result)==1){
-            echo "You have successfully logged in";
+        $result = mysqli_query($koneksi, "SELECT * FROM data_login_pegawai WHERE username = '$uname' AND password = '$katasandi'");
+        
+        if(mysqli_num_rows($result) == 1){  
+            
+            $_SESSION["login"]=true;
+            header("Location: index.html");
             exit();
         }
-        else {
-            echo "Something went wrong";
-            exit();
-        } 
+    
+        $error = true;
+    }
 ?>

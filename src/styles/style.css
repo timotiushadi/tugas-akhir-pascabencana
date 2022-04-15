@@ -618,3 +618,9 @@ input:checked + .slider:before {
   text-decoration: none;
   font-weight: 600;
 }
+
+.chart-canvas{
+  width: 600px;
+  height: 300px;
+  padding-top: 60px;
+}

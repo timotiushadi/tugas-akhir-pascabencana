@@ -626,6 +626,10 @@ input:checked + .slider:before {
   padding-top: 60px;
 }
 
+.filter-button-area{
+  
+}
+
 .filter-button{
   z-index: 1000;
   top: 70%;

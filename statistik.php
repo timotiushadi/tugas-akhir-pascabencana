@@ -56,6 +56,9 @@
       <img src="./src/public/image/link.svg" alt="Disaster list">
       <p>Dashboard Pemantuan Bencana</p>
     </a>
+    <div class="modal-login">
+      <button id="show-login">Login</button>
+    </div>
   </div>
 
   <!-- layer list bar -->
@@ -85,10 +88,10 @@
 </div>
 
 <!-- Modal Login -->
-<!-- <div class="popup">
+<div class="popup">
   <div class="close-button">&times;</div>
     <div class="form">
-      <form class="form-input" action="kirim.php" method="POST">
+      <form action="kirim.php" method="POST">
         <h2>Log In</h2>
         <div class="form-element">
           <label for="username">Username</label>
@@ -104,14 +107,14 @@
           <label for="rememberMe">Remember Me</label>
         </div>
         <div class="form-element">
-          <button type="submit">Log In</button>
+          <button type="submit" name="login">Log In</button>
         </div>
         <div class="form-element">
           <a href="#">Forgot Password</a>
         </div>
       </form>
     </div>
-</div> -->
+</div>
 
 <!-- Chart Canvas -->
 <div class="chart-canvas">
@@ -120,10 +123,10 @@
   </div>
 </div>
 
-  <!-- Leaflet Map
+  <!-- Leaflet Map -->
   <main>
-    <div id="map"></div>     
-  </main> -->
+    <div id="map" style="visibility: hidden;"></div>     
+  </main>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="

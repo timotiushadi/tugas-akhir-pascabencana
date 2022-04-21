@@ -627,11 +627,18 @@ input:checked + .slider:before {
 }
 
 .filter-button-area{
-  
+  position: absolute;
+  z-index: 1000;
+  right: 10px;
+  bottom: 80px;
 }
 
 .filter-button{
-  z-index: 1000;
-  top: 70%;
-  right: 0;
+  padding: 5px;
+}
+
+.filter-button i{
+  width: 20px;
+  display: block;
+  height: 20px;
 }

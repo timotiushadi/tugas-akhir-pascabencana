@@ -11,7 +11,7 @@
         if(mysqli_num_rows($result) == 1){  
             
             $_SESSION["login"]=true;
-            header("Location: index.html");
+            header("Location: index.php");
             exit();
         }
     

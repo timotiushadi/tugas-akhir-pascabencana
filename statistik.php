@@ -125,7 +125,7 @@
 
   <!-- Leaflet Map -->
   <main>
-    <div id="map" style="visibility: hidden;"></div>     
+    <div id="map" style="display: none"></div>     
   </main>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"

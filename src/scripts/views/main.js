@@ -13,6 +13,7 @@ const main = () => {
   const disasterList = document.querySelector('#disaster-list');
   const listDisaster = document.querySelector('#drawer-leftbar-content');
   const listDisasterLayer = document.querySelector('#list-disaster');
+  const filterDrawer = document.querySelector('#filter-drawer')
   
   // Set Bounds
   var southWest = L.latLng(-8.83378746919662, 109.94008798843964),
@@ -158,23 +159,33 @@ const main = () => {
     event.stopPropagation();
   });
 
-  layerList.addEventListener('click', function (event) {
-    if(listDisasterLayer.classList.contains('list-disaster-open')){
-      listDisasterLayer.classList.toggle('list-disaster-open');
-      disasterList.classList.remove('sidebar-nav-item-active')
-    }
-    drawerLeftBar.classList.toggle('leftbar-open');
-    layerList.classList.toggle('sidebar-nav-item-active')
-    event.stopPropagation();
-  });
+  // filterDrawer.addEventListener('click', function (event) {
+  //   if(listDisasterLayer.classList.contains('list-disaster-open')){
+  //     listDisasterLayer.classList.toggle('list-disaster-open');
+  //     disasterList.classList.remove('sidebar-nav-item-active')
+  //   }
+  //   drawerLeftBar.classList.toggle('leftbar-open');
+  //   layerList.classList.toggle('sidebar-nav-item-active')
+  //   event.stopPropagation();
+  // });
 
-  disasterList.addEventListener('click', function (event) {
-    if(drawerLeftBar.classList.contains('leftbar-open')){
+  // filterDrawer.addEventListener('click', function (event) {
+  //   if(drawerLeftBar.classList.contains('leftbar-open')){
+  //     drawerLeftBar.classList.toggle('leftbar-open');
+  //     layerList.classList.remove('sidebar-nav-item-active')
+  //   }
+  //   listDisasterLayer.classList.toggle('list-disaster-open');
+  //   disasterList.classList.toggle('sidebar-nav-item-active')
+  //   event.stopPropagation();
+  // });
+
+  filterDrawer.addEventListener('click', function(event) {
+    if(listDisasterLayer.classList.contains('list-disaster-open') && drawerLeftBar.classList.contains('leftbar-open')){
+      // listDisasterLayer.classList.toggle('list-disaster-open');
       drawerLeftBar.classList.toggle('leftbar-open');
-      layerList.classList.remove('sidebar-nav-item-active')
     }
-    listDisasterLayer.classList.toggle('list-disaster-open');
-    disasterList.classList.toggle('sidebar-nav-item-active')
+    // listDisasterLayer.classList.toggle('list-disaster-open');
+    drawerLeftBar.classList.toggle('leftbar-open');
     event.stopPropagation();
   });
 
@@ -223,6 +234,14 @@ document.querySelector("#show-login").addEventListener("click", function(event) 
 
 document.querySelector(".popup .close-button").addEventListener("click", function(event) {
   document.querySelector(".popup").classList.remove("active");
+})
+
+document.querySelector("#show-form-insert-data").addEventListener("click", function(event) {
+  document.querySelector(".popup-insert").classList.add("active");
+});
+
+document.querySelector(".popup-insert .close-button-popup-insert").addEventListener("click", function(event) {
+  document.querySelector(".popup-insert").classList.remove("active");
 })
 
 const togglePassword = document.querySelector("#togglePassword");

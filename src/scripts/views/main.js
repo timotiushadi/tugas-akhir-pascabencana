@@ -10,10 +10,11 @@ const main = () => {
   const closeButton = document.querySelector('#close-disaster-detail-container');
   const sideBarNav = document.querySelector('#sidebar-nav');
   const layerList = document.querySelector('#layer-list');
-  const disasterList = document.querySelector('#disaster-list');
+  // const disasterList = document.querySelector('#disaster-list');
   const listDisaster = document.querySelector('#drawer-leftbar-content');
   const listDisasterLayer = document.querySelector('#list-disaster');
-  const filterDrawer = document.querySelector('#filter-drawer')
+  const filterDrawer = document.querySelector('#filter-drawer');
+  const chartCanvas = document.querySelector('#chart-canvas');
   
   // Set Bounds
   var southWest = L.latLng(-8.83378746919662, 109.94008798843964),
@@ -243,6 +244,11 @@ document.querySelector("#show-form-insert-data").addEventListener("click", funct
 document.querySelector(".popup-insert .close-button-popup-insert").addEventListener("click", function(event) {
   document.querySelector(".popup-insert").classList.remove("active");
 })
+
+document.querySelector("#disaster-list").addEventListener("click", function(event) {
+  document.querySelector(".chart-canvas").classList.add("active");
+  event.stopPropagation();
+});
 
 const togglePassword = document.querySelector("#togglePassword");
         const password = document.querySelector("#password");

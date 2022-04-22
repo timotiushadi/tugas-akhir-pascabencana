@@ -620,6 +620,12 @@ input:checked + .slider:before {
 }
 
 .chart-canvas{
+  display: none;
+}
+
+.chart-canvas.active{
+  position: absolute;
+  z-index: 1000;
   width: 600px;
   height: 300px;
   padding-top: 60px;

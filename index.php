@@ -232,7 +232,7 @@
     <div id="map"></div>
   </main>
 
-  <div class="chart-canvas" style="display: none">
+  <div class="chart-canvas">
     <div>
       <canvas id="myChart"></canvas>
     </div>

@@ -24,8 +24,8 @@
         $level = $_POST['level'];
         $operator_id = $_POST['operator_id'];
     
-        $result = "INSERT INTO data_disaster ('id_logs', 'eventdate', 'province', 'disastertype', 'regencycity', 'area', 'latitude', 'longitude', 'weather', 'chronology', 'dead', 'missing', 'serious_wound', 'minor_injuries', 'damage', 'losses', 'response', 'source', 'status', 'level', 'operator_id')
-        VALUES (NULL, '$eventdate', '$province', '$disastertype', '$regencycity', '$area', '$latitude', '$longitude', '$weather', '$chronology', '$dead', '$missing', '$serious_wound', '$minor_injuries', '$damage', '$losses', '$response', '$source', '$status', '$level', '$operatorid')";  
+        $result = "INSERT INTO data_disaster (eventdate, province, disastertype, regencycity, area, latitude, longitude, weather, chronology, dead, missing, serious_wound, minor_injuries, damage, losses, response, source, status, level, operator_id)
+        VALUES ('$eventdate', '$province', '$disastertype', '$regencycity', '$area', '$latitude', '$longitude', '$weather', '$chronology', '$dead', '$missing', '$serious_wound', '$minor_injuries', '$damage', '$losses', '$response', '$source', '$status', '$level', '$operatorid')";  
 
         $upload = mysqli_query($koneksi, $result);
 
@@ -33,14 +33,12 @@
             echo "<script>
                         alert('Querry Successfully Executed!');
                 </script>";
+            sleep(3);
+            header('Location: index.php');
             exit();            
         }
         else{
-            echo "<script>
-                        alert('Querry not Successfully Executed!'); 
-                </script>";
-            exit();
+            die("Error : ".mysqli_error($koneksi));
         }
-        $error = true;
     }
 ?>

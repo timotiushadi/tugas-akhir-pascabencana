@@ -53,6 +53,16 @@
                                     ?>">
       <button id="show-form-insert-data">Tambah Data</button>
     </div>
+    <div class="logout" style="<?php 
+                                      if(isset($_SESSION["login"])){
+                                        echo 'display:block;';
+                                      }
+                                      else{
+                                        echo 'display:none;';
+                                      } 
+                                    ?>">
+      <a href="logout.php"><button id="logout">Logout</button></a>
+    </div>
   </header>
 
   <!-- hamburger-button navigation bar -->
@@ -143,12 +153,41 @@
           <input type="text" name="province" value="Jawa Timur">
         </div>
         <div class="form-element">
+          <label for="disastertype">Disaster Type</label>
+          <select name="disastertype" id="disastertype">
+            <option value="Gempa Bumi">Gempa Bumi</option>
+            <option value="Letusan Gunung Berapi">Letusan Gunung Berapi</option>
+            <option value="Tsunami">Tsunami</option>
+            <option value="Tanah Longsor">Tanah Longsor</option>
+            <option value="Banjir">Banjir</option>
+            <option value="Banjir Bandang">Banjir Bandang</option>
+            <option value="Kekeringan">Kekeringan</option>
+            <option value="Angin Puting Beliung">Angin Puting Beliung</option>
+            <option value="Kebakaran">Kebakaran</option>
+            <option value="Kebakaran Hutan">Kebakaran Hutan</option>
+            <option value="Gelombang Pasang">Gelombang Pasang</option>
+            <option value="Abrasi">Abrasi</option>
+            <option value="Kecelakaan Transportasi">Kecelakaan Transportasi</option>
+            <option value="Kecelakaan Industri">Kecelakaan Industri</option>
+            <option value="Laka Laut">Laka Laut</option>
+            <option value="Kejadian Lain">Kejadian Lain</option>
+            <option value="Angin Kencang">Angin Kencang</option>
+            <option value="Banjir dan Tanah Longsor">Banjir dan Tanah Longsor</option>
+            <option value="Banjir Rob">Banjir Rob</option>
+            <option value="Gerakan Tanah">Gerakan Tanah</option>
+            <option value="Pohon Tumbang">Pohon Tumbang</option>
+            <option value="Erosi">Erosi</option>
+            <option value="Kebakaran Lahan">Kebakaran Lahan</option>
+            <option value="Gunung Api">Gunung Api</option>
+          </select>
+        </div>
+        <div class="form-element">
           <label for="regencycity">Regency City</label>
           <input type="text" name="regencycity" placeholder="Kabupaten/Kota">
         </div>
         <div class="form-element">
           <label for="area">Area</label>
-          <input type="text" name="area">
+          <input type="text" name="area" placeholder="Detail Area">
         </div>
         <div class="form-element">
           <label for="latitude">Latitude</label>

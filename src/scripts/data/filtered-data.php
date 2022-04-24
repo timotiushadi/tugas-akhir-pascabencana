@@ -21,7 +21,7 @@ $return = file_get_contents('data.json');
 $json= json_decode($return);
 
 
-$threeDays = date('Y-m-d h:i:s', strtotime('-3 days'));
+$threeDays = date('Y-m-d h:i:s', strtotime('-4 days'));
 $filteredArray = array();
 foreach($json->data as $mydata)
 {

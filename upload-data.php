@@ -2,7 +2,7 @@
     session_start();
     require 'koneksi.php';
 
-    if(isset($_POST['insert-data'])){
+    if(isset($_POST['upload-data'])){
         $eventdate = $_POST['eventdate'];
         $province = $_POST['province'];
         $disastertype = $_POST['disastertype'];
@@ -24,17 +24,22 @@
         $level = $_POST['level'];
         $operator_id = $_POST['operator_id'];
     
-        $result = mysqli_query("INSERT INTO data_disaster (id_logs, eventdate, province, disastertype, regencycity, area, latitude, longitude, weather, chronology, dead, missing, serious_wound, minor_injuries, damage, losses, response, source, status, level, operator_id)
-        VALUES(NULL, $eventdate, $province, $disastertype, $regencycity, $area, $latitude, $longitude, $weather, $chronology, $dead, $missing, $serious_wound, $minor_injuries, $damage, $losses, $response, $source, $status, $level, $operatorid)");  
+        $result = "INSERT INTO data_disaster ('id_logs', 'eventdate', 'province', 'disastertype', 'regencycity', 'area', 'latitude', 'longitude', 'weather', 'chronology', 'dead', 'missing', 'serious_wound', 'minor_injuries', 'damage', 'losses', 'response', 'source', 'status', 'level', 'operator_id')
+        VALUES (NULL, '$eventdate', '$province', '$disastertype', '$regencycity', '$area', '$latitude', '$longitude', '$weather', '$chronology', '$dead', '$missing', '$serious_wound', '$minor_injuries', '$damage', '$losses', '$response', '$source', '$status', '$level', '$operatorid')";  
 
-        if($result){  
+        $upload = mysqli_query($koneksi, $result);
+
+        if($upload){  
             echo "<script>
-                    setTimeout(function(){
-                        alert('Querry Successfully Executed!'); 
-                }, 2000)
-            </script>";
-            header("Location: index.php");
+                        alert('Querry Successfully Executed!');
+                </script>";
             exit();            
+        }
+        else{
+            echo "<script>
+                        alert('Querry not Successfully Executed!'); 
+                </script>";
+            exit();
         }
         $error = true;
     }

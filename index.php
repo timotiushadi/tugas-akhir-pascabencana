@@ -1,6 +1,7 @@
 <?php
 
   session_start();
+  include 'koneksi.php';
 
 ?>
 
@@ -19,6 +20,7 @@
     <link rel="stylesheet" href="./src/styles/responsive.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link rel="shortcut icon" href="#">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 
@@ -150,60 +152,98 @@
         </div>
         <div class="form-element">
           <label for="province">Province</label>
-          <input type="text" name="province" value="Jawa Timur">
+          <input type="text" name="province" value="Jawa Timur" required>
         </div>
         <div class="form-element">
           <label for="disastertype">Disaster Type</label>
-          <select name="disastertype" id="disastertype">
-            <option value="Gempa Bumi">Gempa Bumi</option>
-            <option value="Letusan Gunung Berapi">Letusan Gunung Berapi</option>
-            <option value="Tsunami">Tsunami</option>
-            <option value="Tanah Longsor">Tanah Longsor</option>
-            <option value="Banjir">Banjir</option>
-            <option value="Banjir Bandang">Banjir Bandang</option>
-            <option value="Kekeringan">Kekeringan</option>
-            <option value="Angin Puting Beliung">Angin Puting Beliung</option>
-            <option value="Kebakaran">Kebakaran</option>
-            <option value="Kebakaran Hutan">Kebakaran Hutan</option>
-            <option value="Gelombang Pasang">Gelombang Pasang</option>
-            <option value="Abrasi">Abrasi</option>
-            <option value="Kecelakaan Transportasi">Kecelakaan Transportasi</option>
-            <option value="Kecelakaan Industri">Kecelakaan Industri</option>
-            <option value="Laka Laut">Laka Laut</option>
-            <option value="Kejadian Lain">Kejadian Lain</option>
-            <option value="Angin Kencang">Angin Kencang</option>
-            <option value="Banjir dan Tanah Longsor">Banjir dan Tanah Longsor</option>
-            <option value="Banjir Rob">Banjir Rob</option>
-            <option value="Gerakan Tanah">Gerakan Tanah</option>
-            <option value="Pohon Tumbang">Pohon Tumbang</option>
-            <option value="Erosi">Erosi</option>
-            <option value="Kebakaran Lahan">Kebakaran Lahan</option>
-            <option value="Gunung Api">Gunung Api</option>
+          <select name="disastertype" id="disastertype" required>
+            <option value="0">- Select -</option>
+            <?php
+                // Fetch Regencies
+                $sql_disastertypes = "SELECT * FROM tb_disastertypes";
+                $disastertypes_data = mysqli_query($koneksi,$sql_disastertypes);
+                while($row = mysqli_fetch_assoc($disastertypes_data) ){
+                    $disastertypesId = $row['id_disaster'];
+                    $disastertypes_name = $row['disastertype'];
+                    
+                    // Option
+                    echo "<option value='".$disastertypesId."' >".$disastertypes_name."</option>";
+                }
+              ?>
           </select>
         </div>
         <div class="form-element">
           <label for="regencycity">Regency City</label>
-          <input type="text" name="regencycity" placeholder="Kabupaten/Kota">
+          <select name="regencycity" id="regencycity" required>
+            <option value="0">- Select -</option>
+            <?php
+                // Fetch Regencies
+                $sql_regencies = "SELECT * FROM regencies";
+                $regencies_data = mysqli_query($koneksi,$sql_regencies);
+                while($row = mysqli_fetch_assoc($regencies_data) ){
+                    $regenciesId = $row['id'];
+                    $regencies_name = $row['name'];
+                    
+                    // Option
+                    echo "<option value='".$regenciesId."' >".$regencies_name."</option>";
+                }
+            ?>
+          </select>
+        </div>
+        <div class="form-element">
+          <label for="district">Districs</label>
+          <select name="district" id="district" required>
+            <option value="0">- Select -</option>
+          </select>
+          <!-- Script on change regencies -->
+          <script type="text/javascript">
+            $(document).ready(function(){
+            $("#regencycity").change(function(){
+                var regenID = $(this).val();
+
+                $.ajax({
+                    url: 'ambildata_district.php',
+                    type: 'post',
+                    data: {regen: regenID},
+                    dataType: 'json',
+                    success:function(response){
+
+                        var panjang = response.length;
+
+                        $("#district").empty();
+                        for( var i = 0; i<panjang; i++){
+                            var id = response[i]['id'];
+                            var name = response[i]['name'];
+                            
+                            $("#district").append("<option value='"+id+"'>"+name+"</option>");
+
+                        }
+                    }
+                });
+            });
+
+            });
+            </script>
         </div>
         <div class="form-element">
           <label for="area">Area</label>
-          <input type="text" name="area" placeholder="Detail Area">
+          <input type="text" name="area" placeholder="Detail Area" required>
         </div>
         <div class="form-element">
           <label for="latitude">Latitude</label>
-          <input type="text" name="latitude" placeholder="0.000">
+          <input type="text" name="latitude" placeholder="0.000" required>
         </div>
         <div class="form-element">
           <label for="longitude">Longitude</label>
-          <input type="text" name="longitude" placeholder="0.000">
+          <input type="text" name="longitude" placeholder="0.000" required>
         </div>
         <div class="form-element">
           <label for="weather">Weather</label>
-          <input type="text" name="weather">
+          <input type="text" name="weather" required>
         </div>
         <div class="form-element">
           <label for="chronology">Chronology</label>
-          <textarea name="chronology"></textarea>
+          <textarea name="chronology" required></textarea>
         </div>
         <div class="form-element">
           <label for="dead">Dead</label>
@@ -276,11 +316,16 @@
       <canvas id="myChart"></canvas>
     </div>
   </div>
+  <div class="chart-canvas">
+    <div>
+      <canvas id="myChart2"></canvas>
+    </div>
+  </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></scr>
-  <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></>
   <script src="app.js" type="module"></script>
 </body>
 </html>

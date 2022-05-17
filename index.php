@@ -21,6 +21,34 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link rel="shortcut icon" href="#">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Script on change regencies -->
+    <script type="text/javascript">
+            $(document).ready(function(){
+              $("#regencycity").change(function(){
+                  var regenID = $(this).val();
+
+                  $.ajax({
+                      url: 'ambildata_district.php',
+                      type: 'post',
+                      data: {regen: regenID},
+                      dataType: 'json',
+                      success:function(response){
+
+                          var panjang = response.length;
+
+                          $("#district").empty();
+                          for( var i = 0; i<panjang; i++){
+                              var id = response[i]['id'];
+                              var name = response[i]['name'];
+                              
+                              $("#district").append("<option value='"+id+"'>"+name+"</option>");
+
+                          }
+                      }
+                  });
+              });
+            });
+            </script>
 </head>
 <body>
 
@@ -195,35 +223,6 @@
           <select name="district" id="district" required>
             <option value="0">- Select -</option>
           </select>
-          <!-- Script on change regencies -->
-          <script type="text/javascript">
-            $(document).ready(function(){
-            $("#regencycity").change(function(){
-                var regenID = $(this).val();
-
-                $.ajax({
-                    url: 'ambildata_district.php',
-                    type: 'post',
-                    data: {regen: regenID},
-                    dataType: 'json',
-                    success:function(response){
-
-                        var panjang = response.length;
-
-                        $("#district").empty();
-                        for( var i = 0; i<panjang; i++){
-                            var id = response[i]['id'];
-                            var name = response[i]['name'];
-                            
-                            $("#district").append("<option value='"+id+"'>"+name+"</option>");
-
-                        }
-                    }
-                });
-            });
-
-            });
-            </script>
         </div>
         <div class="form-element">
           <label for="area">Area</label>
@@ -324,8 +323,8 @@
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-  crossorigin=""></scr>
-  <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></>
+  crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
   <script src="app.js" type="module"></script>
 </body>
 </html>

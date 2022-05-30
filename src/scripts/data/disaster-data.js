@@ -14,12 +14,14 @@ class DisasterData {
       let today = new Date();
       let threeDays = new Date(today.getTime() - (3 * 24 * 60 * 60 * 1000));
       today.setHours(0,0,0,0);
+      console.log(marker);
 
       if (marker.longitude !== null && marker.latitude !== null) {
         if (shouldSkip) {
           return;
         }
-        if(dayTemp >= threeDays || marker.status == "BELUM") {
+        if(true) {
+
 
           iconUrl = 'src/public/image/disaster-icon/'+ marker.typeid +'.svg';
            let popups = `

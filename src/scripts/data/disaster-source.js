@@ -8,7 +8,7 @@ class DisasterSource {
     const response = await fetch('./src/scripts/data/filtered-data.php');
     const responseJson = await response.json();
     // return responseJson.data;
-    return responseJson;
+    return responseJson.data;
   }
 }
 

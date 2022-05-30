@@ -22,33 +22,7 @@
     <link rel="shortcut icon" href="#">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Script on change regencies -->
-    <script type="text/javascript">
-            $(document).ready(function(){
-              $("#regencycity").change(function(){
-                  var regenID = $(this).val();
-
-                  $.ajax({
-                      url: 'ambildata_district.php',
-                      type: 'post',
-                      data: {regen: regenID},
-                      dataType: 'json',
-                      success:function(response){
-
-                          var panjang = response.length;
-
-                          $("#district").empty();
-                          for( var i = 0; i<panjang; i++){
-                              var id = response[i]['id'];
-                              var name = response[i]['name'];
-                              
-                              $("#district").append("<option value='"+id+"'>"+name+"</option>");
-
-                          }
-                      }
-                  });
-              });
-            });
-            </script>
+    
 </head>
 <body>
 
@@ -326,5 +300,32 @@
   crossorigin=""></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
   <script src="app.js" type="module"></script>
+  <script type="text/javascript">
+            $(document).ready(function(){
+              $("#regencycity").change(function(){
+                  var regenID = $(this).val();
+
+                  $.ajax({
+                      url: 'ambildata_district.php',
+                      type: 'post',
+                      data: {regen: regenID},
+                      dataType: 'json',
+                      success:function(response){
+
+                          var panjang = response.length;
+
+                          $("#district").empty();
+                          for( var i = 0; i<panjang; i++){
+                              var id = response[i]['id'];
+                              var name = response[i]['name'];
+                              
+                              $("#district").append("<option value='"+id+"'>"+name+"</option>");
+
+                          }
+                      }
+                  });
+              });
+            });
+            </script>
 </body>
 </html>

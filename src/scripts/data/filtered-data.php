@@ -1,40 +1,30 @@
 <?php
-// $BASE_URL =  'https://smartpb.bpbd.jatimprov.go.id/beta/api/v1.php?table=v_disasterlogs_all&action=list';
-// $USERNAME = 'pusdalops@bpbd.jatimprov.go.id';
-// $PASSWORD = 'tangguh123';
-// $APIKEY = '2aa30c85-656b-41fb-9e21-898ca32a95b7';
+require '../../../koneksi.php';
 
-// $curl = curl_init();
+$sql = "SELECT * FROM v_disasterlogs_all";
 
-// $ch = curl_init($BASE_URL);
-// curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', $additionalHeaders));
-// curl_setopt($ch, CURLOPT_HEADER, false);
-// curl_setopt($ch, CURLOPT_USERPWD, $USERNAME . ":" . $PASSWORD);
-// // curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-// curl_setopt($ch, CURLOPT_POST, 1);
-// curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadName);
-// curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-// $return = curl_exec($ch);
-// curl_close($ch);
-$return = file_get_contents('data.json');
+  $response = mysqli_query($koneksi, $sql);
 
-$json= json_decode($return);
+  if ( mysqli_num_rows($response) > 0) {
+    $result = array();
 
+    $days= date('Y-m-d h:i:s', strtotime('-5 days'));
 
-$threeDays = date('Y-m-d h:i:s', strtotime('-4 days'));
-$filteredArray = array();
-foreach($json->data as $mydata)
-{
-
-  if($threeDays < $mydata->eventdate || $mydata->status == "BELUM") {
-    array_push($filteredArray, $mydata);
+      while( $row = mysqli_fetch_assoc($response))
+      {
+        if ( $row['eventdate'] > $days) {
+          $result[] = $row;
+        }
+      }
+      $status = "1";
+      $message = "success";
+      echo json_encode(array('status'=>$status, 'message'=>$message, 'data' => $result), JSON_PRETTY_PRINT);
+      mysqli_close($conn);
+  } else {
+    $status = "0";
+    $message = "error";
+    echo json_encode(array('status'=>$status, 'message'=>$message), JSON_PRETTY_PRINT);
   }
-}
-$data = json_encode($filteredArray, JSON_PRETTY_PRINT);
-
-
-header("Content-Type: application/json");
-echo $data;
 
 ?>
 

@@ -61,6 +61,7 @@ const main = () => {
 
   async function getData() {
     const disaster = await DisasterData.getAllDisaster();
+    console.log(disaster);
     return disaster;
   }
 

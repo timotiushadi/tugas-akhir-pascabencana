@@ -534,7 +534,7 @@ input:checked + .slider:before {
   z-index: 0;
   top: 50%;
   left: 50%;
-  opacity: 0;
+  display: none;
   transform: translate(-50%, -50%) scale(1.5);
   width: 380px;
   padding: 20px 30px;
@@ -548,7 +548,7 @@ input:checked + .slider:before {
 
 .popup.active{
   top: 50%;
-  opacity: 1;
+  display: block;
   transform:translate(-50%, -50%); scale:(1);
   z-index: 1000;
 }
@@ -677,10 +677,10 @@ input:checked + .slider:before {
 
 .popup-insert{
   position: absolute;
-  z-index: 0;
+  z-index: 1000;
   top: 50%;
   left: 50%;
-  opacity: 0;
+  display: none;
   transform: translate(-50%, -50%) scale(1.5);
   width: 380px;
   padding: 20px 30px;
@@ -696,7 +696,7 @@ input:checked + .slider:before {
 
 .popup-insert.active{
   top: 50%;
-  opacity: 1;
+  display: block;
   transform:translate(-50%, -50%); scale:(1);
   z-index: 1000;
   height:400px;
@@ -793,4 +793,9 @@ input:checked + .slider:before {
   color: black;
   filter: none;
   cursor: pointer;
+}
+
+.canvas-container{
+  display: none; 
+  padding-top:5vh;
 }

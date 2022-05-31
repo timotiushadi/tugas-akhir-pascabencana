@@ -2,7 +2,7 @@
 
   session_start();
   include 'koneksi.php';
-
+  // include './src/scripts/data/filtered-data-statistics.php';
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +76,7 @@
       <p>Beranda</p>
     </a>
 
-    <a href="#" class="sidebar-nav-item" id="disaster-list">
+    <a href="#" class="sidebar-nav-item" id="disaster-list" onclick="statisticsShows()">
       <img src="./src/public/image/statistics.svg" alt="Disaster list">
       <p>Statistik</p>
     </a>
@@ -279,27 +279,28 @@
     <i class="bi-funnel" id="filter-btn"></i>
 </div>
 
-  <!-- Leaflet Map -->
-  <main>
-    <div id="map"></div>
-  </main>
+<div class="canvas-container" id="statistics">
+  <canvas id="myChart"></canvas>
+</div>
 
-  <div class="chart-canvas">
-    <div>
-      <canvas id="myChart"></canvas>
-    </div>
-  </div>
-  <div class="chart-canvas">
-    <div>
-      <canvas id="myChart2"></canvas>
-    </div>
-  </div>
+<!-- Leaflet Map -->
+<main>
+  <div id="map"></div>
+</main>
+
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
   <script src="app.js" type="module"></script>
+  <script src="./src/scripts/views/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
+
+
+  <!-- Autopopulate Section -->
   <script type="text/javascript">
             $(document).ready(function(){
               $("#regencycity").change(function(){
@@ -326,6 +327,118 @@
                   });
               });
             });
-            </script>
+  </script>
+
+  <!-- Hidden Onclick Section -->
+  <script type="text/javascript">
+    function statisticsShows() {
+      var x = document.getElementById("map");
+      var y = document.getElementById("statistics");
+      var z = document.getElementById("filter-drawer");
+      if (x.style.display === "none" && y.style.display === "block") {
+        x.style.display = "block";
+        z.style.display = "block";
+        y.style.display = "none";
+      } else {
+        x.style.display = "none";
+        z.style.display = "none";
+        y.style.display = "block";
+      }
+    }
+  </script>
+
+  <!-- Chart JS Section -->
+  <?php 
+    $Ssql = "SELECT YEAR(eventdate) as year, 
+    SUM(dead) AS dead_total, 
+    SUM(missing) AS missing_total, 
+    SUM(serious_wound) AS serious_woundTotal, 
+    SUM(minor_injuries) AS minor_injuriesTotal 
+    FROM v_disasterlogs_all WHERE YEAR(eventdate) >= year(CURRENT_TIMESTAMP) - 4 GROUP BY YEAR(eventdate) ORDER BY YEAR(eventdate) ASC";
+    
+    $Sresponse = mysqli_query($koneksi, $Ssql);
+    
+      if ( mysqli_num_rows($Sresponse) > 0) {
+        $dateYear = array();
+        $dead = array();
+        $miss = array();
+        $serious = array();
+        $minor = array();
+          while( $Srow = mysqli_fetch_assoc($Sresponse)){
+            if (true) {
+              $dateYear[] = $Srow['year'];
+              $dead[] = $Srow['dead_total'];
+              $miss[] = $Srow['missing_total'];
+              $serious[] = $Srow['serious_woundTotal'];
+              $minor[] = $Srow['minor_injuriesTotal'];
+
+            }
+          }
+
+      $status = "1";
+      $message = "success";
+  } else {
+    $status = "0";
+    $message = "error";
+    echo json_encode(array('status'=>$status, 'message'=>$message), JSON_PRETTY_PRINT);
+  }
+  ?>
+
+  <script>
+    // Setup block
+    const Syear = <?php echo json_encode($dateYear) ?>;
+    const Sdead_total = <?php echo json_encode($dead) ?>;
+    const Smissing_total = <?php echo json_encode($miss) ?>;
+    const Sserious_woundTotal = <?php echo json_encode($serious) ?>;
+    const Sminor_injuriesTotal = <?php echo json_encode($minor) ?>;
+    const data = {
+      labels: Syear,
+            datasets: [{
+                label: 'Jumlah Korban Meninggal 5 Tahun terakhir',
+                data: Sdead_total,
+                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+                borderColor: ['rgba(255, 99, 132, 1)'],
+                borderWidth: 1
+            },
+            {
+                label: 'Jumlah Korban Hilang 5 Tahun terakhir',
+                data: Smissing_total,
+                backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+                borderColor: ['rgba(54, 162, 235, 1)'],
+                borderWidth: 1
+            },
+            {
+                label: 'Jumlah Korban Luka Berat 5 Tahun terakhir',
+                data: Sserious_woundTotal,
+                backgroundColor: ['rgba(255, 206, 86, 0.2)'],
+                borderColor: ['rgba(255, 206, 86, 1)'],
+                borderWidth: 1
+            },
+            {
+                label: 'Jumlah Korban Luka Ringan 5 Tahun terakhir',
+                data: Sminor_injuriesTotal,
+                backgroundColor: ['rgba(75, 192, 192, 0.2)'],
+                borderColor: ['rgba(75, 192, 192, 1)'],
+                borderWidth: 1
+            }
+          ]
+    };
+
+    // Config block
+    const config = {
+      type: 'bar',
+      data,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    }
+
+    // Render Block
+    const myChart = new Chart(document.getElementById('myChart'),config);
+  </script>
 </body>
 </html>

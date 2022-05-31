@@ -21,10 +21,8 @@ class DisasterData {
           return;
         }
         if(true) {
-
-
           iconUrl = 'src/public/image/disaster-icon/'+ marker.typeid +'.svg';
-           let popups = `
+            let popups = `
             <div id="popup-marker" class="popup-marker-container">
               <h4 class="popup-disaster-name">${marker.disastertype.toUpperCase()}</h4>
               <p class="popup-disaster-detail">${marker.eventdate}</p>

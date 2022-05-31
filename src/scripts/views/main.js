@@ -17,12 +17,12 @@ const main = () => {
   const chartCanvas = document.querySelector('#chart-canvas');
   
   // Set Bounds
-  var southWest = L.latLng(-8.83378746919662, 109.94008798843964),
-  northEast = L.latLng(-6.197166277748323, 115.35535361833975),
+  var southWest = L.latLng(-10.05574698293434, 109.1537005018748),
+  northEast = L.latLng(-4.413385106027282, 116.98480463800202),
   bounds = L.latLngBounds(southWest, northEast);
 
   const map = L.map('map', {zoomControl: false, attributionControl: false, maxBounds: bounds
-  }).setView([-7.646919, 112.899925], 8).setZoom(9).setMinZoom(9);
+  }).setView([-7.89102904, 112.6698802], 8).setZoom(9).setMinZoom(9);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
@@ -61,7 +61,6 @@ const main = () => {
 
   async function getData() {
     const disaster = await DisasterData.getAllDisaster();
-    console.log(disaster);
     return disaster;
   }
 
@@ -245,11 +244,6 @@ document.querySelector("#show-form-insert-data").addEventListener("click", funct
 document.querySelector(".popup-insert .close-button-popup-insert").addEventListener("click", function(event) {
   document.querySelector(".popup-insert").classList.remove("active");
 })
-
-document.querySelector("#disaster-list").addEventListener("click", function(event) {
-  document.querySelector(".chart-canvas").classList.add("active");
-  event.stopPropagation();
-});
 
 const togglePassword = document.querySelector("#togglePassword");
         const password = document.querySelector("#password");

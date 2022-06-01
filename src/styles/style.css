@@ -798,4 +798,12 @@ input:checked + .slider:before {
 .canvas-container{
   display: none; 
   padding-top:5vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50vw;
+}
+
+.canvas-element{
+  width:800px; 
+  padding: 25px;
 }

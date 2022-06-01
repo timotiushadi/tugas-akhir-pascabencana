@@ -280,11 +280,11 @@
 </div>
 
 <div class="canvas-container" id="statistics">
-  <div style="width:800px; padding: 25px;">
+  <div class="canvas-element">
     <canvas id="barChart"></canvas>
   </div>
   
-  <div style="width:800px; padding: 25px;">
+  <div class="canvas-element">
     <canvas id="doughnutChart"></canvas>
   </div>
 </div>

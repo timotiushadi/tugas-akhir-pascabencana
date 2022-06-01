@@ -280,7 +280,8 @@
 </div>
 
 <div class="canvas-container" id="statistics">
-  <canvas id="myChart"></canvas>
+  <div style="width:900px;"><canvas id="barChart"></canvas></div>
+  <div style="width:900px;"><canvas id="doughnutChart"></canvas></div>
 </div>
 
 <!-- Leaflet Map -->
@@ -347,7 +348,7 @@
     }
   </script>
 
-  <!-- Chart JS Section -->
+  <!-- Chart JS Section 1 -->
   <?php 
     $Ssql = "SELECT YEAR(eventdate) as year, 
     SUM(dead) AS dead_total, 
@@ -374,14 +375,7 @@
 
             }
           }
-
-      $status = "1";
-      $message = "success";
-  } else {
-    $status = "0";
-    $message = "error";
-    echo json_encode(array('status'=>$status, 'message'=>$message), JSON_PRETTY_PRINT);
-  }
+  } 
   ?>
 
   <script>
@@ -396,30 +390,22 @@
             datasets: [{
                 label: 'Jumlah Korban Meninggal 5 Tahun terakhir',
                 data: Sdead_total,
-                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                borderColor: ['rgba(255, 99, 132, 1)'],
-                borderWidth: 1
+                backgroundColor: 'rgba(248, 000, 000)'
             },
             {
                 label: 'Jumlah Korban Hilang 5 Tahun terakhir',
                 data: Smissing_total,
-                backgroundColor: ['rgba(54, 162, 235, 0.2)'],
-                borderColor: ['rgba(54, 162, 235, 1)'],
-                borderWidth: 1
+                backgroundColor: 'rgba(214, 174, 001)'
             },
             {
                 label: 'Jumlah Korban Luka Berat 5 Tahun terakhir',
                 data: Sserious_woundTotal,
-                backgroundColor: ['rgba(255, 206, 86, 0.2)'],
-                borderColor: ['rgba(255, 206, 86, 1)'],
-                borderWidth: 1
+                backgroundColor: 'rgba(255, 164, 032)'
             },
             {
                 label: 'Jumlah Korban Luka Ringan 5 Tahun terakhir',
                 data: Sminor_injuriesTotal,
-                backgroundColor: ['rgba(75, 192, 192, 0.2)'],
-                borderColor: ['rgba(75, 192, 192, 1)'],
-                borderWidth: 1
+                backgroundColor: 'rgba(042, 100, 120)'
             }
           ]
     };
@@ -438,7 +424,75 @@
     }
 
     // Render Block
-    const myChart = new Chart(document.getElementById('myChart'),config);
+    const barChart = new Chart(document.getElementById('barChart'), config);
+  </script>
+
+  <!-- Chart JS Section 2 -->
+  <?php 
+    $Ssql2 = "SELECT disastertype, COUNT(*) AS disastertype_total 
+    FROM v_disasterlogs_all 
+    WHERE YEAR(eventdate) = year(CURRENT_TIMESTAMP) - 4 
+    GROUP BY YEAR(eventdate), disastertype";
+    
+    $Sresponse2 = mysqli_query($koneksi, $Ssql2);
+    
+      if ( mysqli_num_rows($Sresponse2) > 0) {
+        $disastertype2 = array();
+        $disastertype2_total = array();
+          while( $Srow2 = mysqli_fetch_assoc($Sresponse2)){
+            if (true) {
+              $disastertype2[] = $Srow2['disastertype'];
+              $disastertype2_total[] = $Srow2['disastertype_total'];
+            }
+          }
+  }
+  ?>
+
+  <script>
+    // Setup block
+    const Sdistype = <?php echo json_encode($disastertype2) ?>;
+    const Sdis_total = <?php echo json_encode($disastertype2_total) ?>;
+    const data2 = {
+        labels: Sdistype,
+        datasets: [{
+          label: 'Jumlah Bencana tahun 2018',
+          data: Sdis_total,
+          backgroundColor: [
+            'rgba(201, 060, 032, 0.8)',
+            'rgba(245, 40, 145, 0.8)',
+            'rgba(255, 035, 001, 0.8)',
+            'rgba(202, 196, 176, 0.8)',
+            'rgba(208, 208, 208, 0.8)',
+            'rgba(118, 060, 040, 0.8)',
+            'rgba(070, 069, 049, 0.8)',
+            'rgba(059, 131, 189, 0.8)',
+            'rgba(153, 153, 080, 0.8)',
+            'rgba(229, 190, 001, 0.8)',
+            'rgba(038, 037, 045, 0.8)',
+            'rgba(074, 025, 044, 0.8)',
+            'rgba(069, 050, 046, 0.8)',
+            'rgba(029, 051, 074, 0.8)'
+          ],
+          hoverOffset: 4
+        }]
+    };
+
+    // Config block
+    const config2 = {
+      type: 'doughnut',
+      data: data2,
+      options: {
+        legend: {
+          position: 'bottom',
+          labels:{
+            boxWidth: 12
+          }
+        }
+      }
+    }
+
+    // Render Block
+    const doughnutChart = new Chart(document.getElementById('doughnutChart'), config2);
   </script>
 </body>
 </html>

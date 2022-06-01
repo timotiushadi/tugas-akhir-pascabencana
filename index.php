@@ -280,8 +280,13 @@
 </div>
 
 <div class="canvas-container" id="statistics">
-  <div style="width:900px;"><canvas id="barChart"></canvas></div>
-  <div style="width:900px;"><canvas id="doughnutChart"></canvas></div>
+  <div style="width:800px; padding: 25px;">
+    <canvas id="barChart"></canvas>
+  </div>
+  
+  <div style="width:800px; padding: 25px;">
+    <canvas id="doughnutChart"></canvas>
+  </div>
 </div>
 
 <!-- Leaflet Map -->
@@ -419,7 +424,10 @@
                 y: {
                     beginAtZero: true
                 }
-            }
+            },
+            animatescale: true,
+            responsive: true,
+            // maintainAspectRatio: false
         }
     }
 
@@ -487,7 +495,10 @@
           labels:{
             boxWidth: 12
           }
-        }
+        },
+        animatescale: true,
+        responsive: true,
+        // maintainAspectRatio: false
       }
     }
 

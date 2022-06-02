@@ -287,6 +287,10 @@
   <div class="canvas-element">
     <canvas id="doughnutChart"></canvas>
   </div>
+
+  <div class="canvas-element">
+    <canvas id="doughnutChart2"></canvas>
+  </div>
 </div>
 
 <!-- Leaflet Map -->
@@ -300,11 +304,10 @@
   crossorigin=""></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
   <script src="app.js" type="module"></script>
-  <script src="./src/scripts/views/chart.js"></script>
+  <script src=".//src/scripts/views/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
-
 
   <!-- Autopopulate Section -->
   <script type="text/javascript">
@@ -351,159 +354,6 @@
         y.style.display = "block";
       }
     }
-  </script>
-
-  <!-- Chart JS Section 1 -->
-  <?php 
-    $Ssql = "SELECT YEAR(eventdate) as year, 
-    SUM(dead) AS dead_total, 
-    SUM(missing) AS missing_total, 
-    SUM(serious_wound) AS serious_woundTotal, 
-    SUM(minor_injuries) AS minor_injuriesTotal 
-    FROM v_disasterlogs_all WHERE YEAR(eventdate) >= year(CURRENT_TIMESTAMP) - 4 GROUP BY YEAR(eventdate) ORDER BY YEAR(eventdate) ASC";
-    
-    $Sresponse = mysqli_query($koneksi, $Ssql);
-    
-      if ( mysqli_num_rows($Sresponse) > 0) {
-        $dateYear = array();
-        $dead = array();
-        $miss = array();
-        $serious = array();
-        $minor = array();
-          while( $Srow = mysqli_fetch_assoc($Sresponse)){
-            if (true) {
-              $dateYear[] = $Srow['year'];
-              $dead[] = $Srow['dead_total'];
-              $miss[] = $Srow['missing_total'];
-              $serious[] = $Srow['serious_woundTotal'];
-              $minor[] = $Srow['minor_injuriesTotal'];
-
-            }
-          }
-  } 
-  ?>
-
-  <script>
-    // Setup block
-    const Syear = <?php echo json_encode($dateYear) ?>;
-    const Sdead_total = <?php echo json_encode($dead) ?>;
-    const Smissing_total = <?php echo json_encode($miss) ?>;
-    const Sserious_woundTotal = <?php echo json_encode($serious) ?>;
-    const Sminor_injuriesTotal = <?php echo json_encode($minor) ?>;
-    const data = {
-      labels: Syear,
-            datasets: [{
-                label: 'Jumlah Korban Meninggal 5 Tahun terakhir',
-                data: Sdead_total,
-                backgroundColor: 'rgba(248, 000, 000)'
-            },
-            {
-                label: 'Jumlah Korban Hilang 5 Tahun terakhir',
-                data: Smissing_total,
-                backgroundColor: 'rgba(214, 174, 001)'
-            },
-            {
-                label: 'Jumlah Korban Luka Berat 5 Tahun terakhir',
-                data: Sserious_woundTotal,
-                backgroundColor: 'rgba(255, 164, 032)'
-            },
-            {
-                label: 'Jumlah Korban Luka Ringan 5 Tahun terakhir',
-                data: Sminor_injuriesTotal,
-                backgroundColor: 'rgba(042, 100, 120)'
-            }
-          ]
-    };
-
-    // Config block
-    const config = {
-      type: 'bar',
-      data,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            },
-            animatescale: true,
-            responsive: true,
-            // maintainAspectRatio: false
-        }
-    }
-
-    // Render Block
-    const barChart = new Chart(document.getElementById('barChart'), config);
-  </script>
-
-  <!-- Chart JS Section 2 -->
-  <?php 
-    $Ssql2 = "SELECT disastertype, COUNT(*) AS disastertype_total 
-    FROM v_disasterlogs_all 
-    WHERE YEAR(eventdate) = year(CURRENT_TIMESTAMP) - 4 
-    GROUP BY YEAR(eventdate), disastertype";
-    
-    $Sresponse2 = mysqli_query($koneksi, $Ssql2);
-    
-      if ( mysqli_num_rows($Sresponse2) > 0) {
-        $disastertype2 = array();
-        $disastertype2_total = array();
-          while( $Srow2 = mysqli_fetch_assoc($Sresponse2)){
-            if (true) {
-              $disastertype2[] = $Srow2['disastertype'];
-              $disastertype2_total[] = $Srow2['disastertype_total'];
-            }
-          }
-  }
-  ?>
-
-  <script>
-    // Setup block
-    const Sdistype = <?php echo json_encode($disastertype2) ?>;
-    const Sdis_total = <?php echo json_encode($disastertype2_total) ?>;
-    const data2 = {
-        labels: Sdistype,
-        datasets: [{
-          label: 'Jumlah Bencana tahun 2018',
-          data: Sdis_total,
-          backgroundColor: [
-            'rgba(201, 060, 032, 0.8)',
-            'rgba(245, 40, 145, 0.8)',
-            'rgba(255, 035, 001, 0.8)',
-            'rgba(202, 196, 176, 0.8)',
-            'rgba(208, 208, 208, 0.8)',
-            'rgba(118, 060, 040, 0.8)',
-            'rgba(070, 069, 049, 0.8)',
-            'rgba(059, 131, 189, 0.8)',
-            'rgba(153, 153, 080, 0.8)',
-            'rgba(229, 190, 001, 0.8)',
-            'rgba(038, 037, 045, 0.8)',
-            'rgba(074, 025, 044, 0.8)',
-            'rgba(069, 050, 046, 0.8)',
-            'rgba(029, 051, 074, 0.8)'
-          ],
-          hoverOffset: 4
-        }]
-    };
-
-    // Config block
-    const config2 = {
-      type: 'doughnut',
-      data: data2,
-      options: {
-        legend: {
-          position: 'bottom',
-          labels:{
-            boxWidth: 12
-          }
-        },
-        animatescale: true,
-        responsive: true,
-        // maintainAspectRatio: false
-      }
-    }
-
-    // Render Block
-    const doughnutChart = new Chart(document.getElementById('doughnutChart'), config2);
   </script>
 </body>
 </html>

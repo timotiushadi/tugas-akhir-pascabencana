@@ -6,22 +6,22 @@
         const data = {
             labels: [],
                 datasets: [{
-                    label: 'Jumlah Korban Meninggal 5 Tahun terakhir',
+                    label: 'Jumlah Korban Meninggal 3 Tahun terakhir',
                     data: [],
                     backgroundColor: 'rgba(248, 000, 000)'
                 },
                 {
-                    label: 'Jumlah Korban Hilang 5 Tahun terakhir',
+                    label: 'Jumlah Korban Hilang 3 Tahun terakhir',
                     data: [],
                     backgroundColor: 'rgba(214, 174, 001)'
                 },
                 {
-                    label: 'Jumlah Korban Luka Berat 5 Tahun terakhir',
+                    label: 'Jumlah Korban Luka Berat 3 Tahun terakhir',
                     data: [],
                     backgroundColor: 'rgba(255, 164, 032)'
                 },
                 {
-                    label: 'Jumlah Korban Luka Ringan 5 Tahun terakhir',
+                    label: 'Jumlah Korban Luka Ringan 3 Tahun terakhir',
                     data: [],
                     backgroundColor: 'rgba(042, 100, 120)'
                 }
@@ -41,6 +41,12 @@
                     animatescale: true,
                     responsive: true,
                     // maintainAspectRatio: false
+                    title: {
+                        display: true,
+                        position: 'top',
+                        align: 'center',
+                        text: 'Jumlah Korban 3 tahun terakhir'
+                    },
                 }
         }
     
@@ -54,7 +60,10 @@
         
             $.getJSON(url, data).done(function(response){
                 chart.data.labels = response.year;
-                chart.data.datasets[0].data = response.data;
+                chart.data.datasets[0].data = response.dead_total;
+                chart.data.datasets[1].data = response.missing_total;
+                chart.data.datasets[2].data = response.serious_woundTotal;
+                chart.data.datasets[3].data = response.minor_injuriesTotal;
                 chart.update();
             });
         };
@@ -69,7 +78,7 @@
         const data2 = {
             labels: [],
             datasets: [{
-                label: 'Jumlah Bencana tahun 2022',
+                label: 'Jumlah Bencana Tahun Ini',
                 data: [],
                 backgroundColor: [
                 'rgba(201, 060, 032, 0.8)',
@@ -93,18 +102,41 @@
 
         // Config block
         const config2 = {
-            type: 'doughnut',
+            type: 'pie',
             data: data2,
             options: {
-            legend: {
-                position: 'bottom',
-                labels:{
-                boxWidth: 12
+                legend: {
+                    position: 'bottom',
+                    labels:{
+                        boxWidth: 12
+                    }
+                },
+                // maintainAspectRatio: false
+                animation: {
+                    animateScale:true,
+                },
+                
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: '#fff',
+                        anchor: 'end',
+                        align:'start',
+                        offset: -10,
+                        borderWidth: 2,
+                        borderColor: '#fff',
+                        borderRadius:25,
+                        bacgroundColor: (contex) => {
+                            return contex.dataset.backgroundColor;
+                        }
+                    },
+                    title: {
+                        display: true,
+                        position: 'top',
+                        align: 'center',
+                        text: 'Jumlah Bencana Tahun Ini'
+                    }
                 }
-            },
-            animatescale: true,
-            responsive: true,
-            // maintainAspectRatio: false
             }
         }
 
@@ -132,7 +164,7 @@
         const data3 = {
             labels: [],
             datasets: [{
-                label: 'Jumlah Bencana tahun 2021',
+                label: 'Jumlah Bencana Tahun Lalu',
                 data: [],
                 backgroundColor: [
                 'rgba(201, 060, 032, 0.8)',
@@ -156,18 +188,41 @@
 
         // Config block
         const config3 = {
-            type: 'doughnut',
+            type: 'pie',
             data: data3,
             options: {
-            legend: {
-                position: 'bottom',
-                labels:{
-                boxWidth: 12
-                }
-            },
-            animatescale: true,
-            responsive: true,
-            // maintainAspectRatio: false
+                
+                animation: {
+                    animatescale:true,
+                },
+                legend: {
+                    position: 'bottom',
+                    labels:{
+                        boxWidth: 12
+                    }
+                },
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: '#fff',
+                        anchor: 'end',
+                        align:'start',
+                        offset: -10,
+                        borderWidth: 2,
+                        borderColor: '#fff',
+                        borderRadius:25,
+                        bacgroundColor: (contex) => {
+                            return contex.dataset.backgroundColor;
+                        }
+                    },
+                    title: {
+                        display: true,
+                        position: 'top',
+                        align: 'center',
+                        text: 'Jumlah Bencana Tahun Lalu'
+                    }
+                },
+                maintainAspectRatio: true
             }
         }
 

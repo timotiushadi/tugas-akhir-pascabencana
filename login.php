@@ -6,7 +6,7 @@
         $uname = $_POST['username'];
         $katasandi = $_POST['password'];
     
-        $result = mysqli_query($koneksi, "SELECT * FROM data_login_pegawai WHERE username = '$uname' AND password = '$katasandi'");
+        $result = mysqli_query($koneksi, "SELECT * FROM tb_users WHERE username = '$uname' AND password = '$katasandi'");
         
         if(mysqli_num_rows($result) == 1){  
             

@@ -4,9 +4,9 @@
 
     if(isset($_POST['upload-data'])){
         $eventdate = $_POST['eventdate'];
-        $province = $_POST['province'];
         $disastertype = $_POST['disastertype'];
-        $regencycity = $_POST['regencycity'];
+        $province = $_POST['province'];
+        $regency=$_POST['regency'];
         $area = $_POST['area'];
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
@@ -22,10 +22,10 @@
         $source = $_POST['source'];
         $status = $_POST['status'];
         $level = $_POST['level'];
-        $operator_id = $_POST['operator_id'];
+        $operatorID = $_POST['operatorID'];
     
-        $result = "INSERT INTO data_disaster (eventdate, province, disastertype, regencycity, area, latitude, longitude, weather, chronology, dead, missing, serious_wound, minor_injuries, damage, losses, response, source, status, level, operator_id)
-        VALUES ('$eventdate', '$province', '$disastertype', '$regencycity', '$area', '$latitude', '$longitude', '$weather', '$chronology', '$dead', '$missing', '$serious_wound', '$minor_injuries', '$damage', '$losses', '$response', '$source', '$status', '$level', '$operatorid')";  
+        $result = "INSERT INTO tb_disasterlogs (id_logs, id_disastertype, eventdate, province, regency, area, latitude, longitude, weather, chronology, dead, missing, serious_wound, minor_injuries, damage, losses, response, photos, source, status, level, operator_id) 
+        VALUES ('','$disastertype','$eventdate','$province','$regency','$area','$latitude','$longitude','$weather','$chronology','$dead', '$missing', '$serious_wound', '$minor_injuries', '$damage', '$losses', '$response','', '$source', '$status', '$level', '$operatorID')";  
 
         $upload = mysqli_query($koneksi, $result);
 
@@ -33,7 +33,7 @@
             echo "<script>
                         alert('Querry Successfully Executed!');
                 </script>";
-            sleep(3);
+            sleep(2);
             header('Location: index.php');
             exit();            
         }

@@ -4,11 +4,11 @@
   box-sizing: border-box;
 }
 
-body, html {
+html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
 body {
@@ -16,6 +16,7 @@ body {
   font-size: 12px;
   /* color: #424242; */
   position: relative;
+  min-height: 100%;
 }
 
 a {
@@ -797,13 +798,15 @@ input:checked + .slider:before {
 
 .canvas-container{
   display: none; 
-  padding-top:5vh;
+  padding-top:8vh;
+  padding-left: 10vh;
+  padding-right: 10vh;
   margin-left: auto;
   margin-right: auto;
-  width: 50vw;
+  width: 100%;;
+  height: 100%;
 }
 
 .canvas-element{
-  width:800px; 
-  padding: 25px;
+  padding: 20px;
 }

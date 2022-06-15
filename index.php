@@ -21,8 +21,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link rel="shortcut icon" href="#">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Script on change regencies -->
-    
+      
 </head>
 <body>
 
@@ -153,13 +152,9 @@
           <input type="datetime-local" name="eventdate">
         </div>
         <div class="form-element">
-          <label for="province">Province</label>
-          <input type="text" name="province" value="Jawa Timur" required>
-        </div>
-        <div class="form-element">
           <label for="disastertype">Disaster Type</label>
           <select name="disastertype" id="disastertype" required>
-            <option value="0">- Select -</option>
+            <option value="">- Select -</option>
             <?php
                 // Fetch Regencies
                 $sql_disastertypes = "SELECT * FROM tb_disastertypes";
@@ -175,26 +170,26 @@
           </select>
         </div>
         <div class="form-element">
-          <label for="regencycity">Regency City</label>
-          <select name="regencycity" id="regencycity" required>
+          <label for="province">Province</label>
+          <select name="province" id="province" required>
             <option value="0">- Select -</option>
             <?php
                 // Fetch Regencies
-                $sql_regencies = "SELECT * FROM regencies";
-                $regencies_data = mysqli_query($koneksi,$sql_regencies);
-                while($row = mysqli_fetch_assoc($regencies_data) ){
-                    $regenciesId = $row['id'];
-                    $regencies_name = $row['name'];
+                $sql_provinces = "SELECT * FROM provinces";
+                $provinces_data = mysqli_query($koneksi,$sql_provinces);
+                while($row = mysqli_fetch_assoc($provinces_data) ){
+                    $provincesID = $row['id'];
+                    $provincesName = $row['name'];
                     
                     // Option
-                    echo "<option value='".$regenciesId."' >".$regencies_name."</option>";
+                    echo "<option value='".$provincesID."' >".$provincesName."</option>";
                 }
             ?>
           </select>
         </div>
         <div class="form-element">
-          <label for="district">Districs</label>
-          <select name="district" id="district" required>
+          <label for="regency">Regency</label>
+          <select name="regency" id="regency" required>
             <option value="0">- Select -</option>
           </select>
         </div>
@@ -243,7 +238,7 @@
           <input type="text" name="losses" placeholder="-">
         </div>
         <div class="form-element">
-          <label for="response">Response</label>
+          <label for="response">response</label>
           <textarea name="response"></textarea>
         </div>
         <div class="form-element">
@@ -266,6 +261,10 @@
           </select>
         </div>
         <div class="form-element">
+          <label for="operatorID">Operator ID</label>
+          <textarea name="operatorID"></textarea>
+        </div>
+        <div class="form-element">
           <button type="submit" name="upload-data">Upload Data</button>
         </div>
       </form>
@@ -280,17 +279,22 @@
 </div>
 
 <div class="canvas-container" id="statistics">
-  <div class="canvas-element">
+  <div class="canvas-element style:height: 260px;">
     <canvas id="barChart"></canvas>
   </div>
   
-  <div class="canvas-element">
+  <div class="canvas-element" style="text-align: center; height: 10vh;" id="currentChartDisaster">
+  </div>
+
+  <div class="canvas-element" style="float:left; width: 45%; height: 260px;">
     <canvas id="doughnutChart"></canvas>
   </div>
 
-  <div class="canvas-element">
+  <div class="canvas-element" style="float:right; width: 45%; height: 260px;">
     <canvas id="doughnutChart2"></canvas>
   </div>
+
+  
 </div>
 
 <!-- Leaflet Map -->
@@ -306,13 +310,14 @@
   <script src="app.js" type="module"></script>
   <script src=".//src/scripts/views/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.0/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script> -->
 
   <!-- Autopopulate Section -->
   <script type="text/javascript">
             $(document).ready(function(){
-              $("#regencycity").change(function(){
+              $("#province").change(function(){
                   var regenID = $(this).val();
 
                   $.ajax({
@@ -324,12 +329,12 @@
 
                           var panjang = response.length;
 
-                          $("#district").empty();
+                          $("#regency").empty();
                           for( var i = 0; i<panjang; i++){
                               var id = response[i]['id'];
                               var name = response[i]['name'];
                               
-                              $("#district").append("<option value='"+id+"'>"+name+"</option>");
+                              $("#regency").append("<option value='"+id+"'>"+name+"</option>");
 
                           }
                       }
@@ -354,6 +359,32 @@
         y.style.display = "block";
       }
     }
+  </script>
+
+  <!-- Ajax to show Current Disaster -->
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $.ajax({
+        url: "./src/scripts/data/chart/chart-currentMonth.php",
+        method: "post",
+        dataType: "json",
+        success: function(response) {
+
+          var len = response.length;
+
+          $("#currentChartDisaster").empty();
+          $("#currentChartDisaster").append("<h2>Jumlah Bencana Terjadi Bulan Ini</h2>");
+            for (var i=0; i<len; i++) {
+              var name = response[i]['disasterName'];
+              var count = response[i]['disasterCount'];
+              console.log(response);
+              $("#currentChartDisaster").append("<h3>"+id+" : "+name+"</h3>");
+            }
+            
+        },
+        error: function(response,text){console.log('Error:' + text);}
+      });
+    });
   </script>
 </body>
 </html>

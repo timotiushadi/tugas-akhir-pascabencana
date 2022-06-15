@@ -9,13 +9,14 @@
       $regencies_array = array();
 
       if($regenciesId > 0){
-          $sql = "SELECT id,name FROM districts WHERE regency_id=".$regenciesId;
+          $sql = "SELECT id_regency,regency_city FROM tb_regency WHERE LEFT(bps_code, 2) =".$regenciesId;
+          
 
           $result = mysqli_query($koneksi,$sql);
           
           while( $row = mysqli_fetch_array($result) ){
-              $id = $row['id'];
-              $name = $row['name'];
+              $id = $row['id_regency'];
+              $name = $row['regency_city'];
           
               $regencies_array[] = array("id" => $id, "name" => $name);
           }

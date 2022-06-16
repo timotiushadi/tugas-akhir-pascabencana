@@ -283,7 +283,8 @@
     <canvas id="barChart"></canvas>
   </div>
   
-  <div class="canvas-element" style="text-align: center; height: 10vh;" id="currentChartDisaster">
+  <div class="canvas-element" style="text-align: center;" id="currentChartDisaster">
+    
   </div>
 
   <div class="canvas-element" style="float:left; width: 45%; height: 260px;">
@@ -294,7 +295,6 @@
     <canvas id="doughnutChart2"></canvas>
   </div>
 
-  
 </div>
 
 <!-- Leaflet Map -->
@@ -313,38 +313,77 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.0/chart.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
   <!-- Autopopulate Section -->
   <script type="text/javascript">
-            $(document).ready(function(){
-              $("#province").change(function(){
-                  var regenID = $(this).val();
+    $(document).ready(function(){
+      $("#province").change(function(){
+          var regenID = $(this).val();
 
-                  $.ajax({
-                      url: 'ambildata_district.php',
-                      type: 'post',
-                      data: {regen: regenID},
-                      dataType: 'json',
-                      success:function(response){
+          $.ajax({
+              url: 'ambildata_district.php',
+              type: 'post',
+              data: {regen: regenID},
+              dataType: 'json',
+              success:function(response){
 
-                          var panjang = response.length;
+                  var panjang = response.length;
 
-                          $("#regency").empty();
-                          for( var i = 0; i<panjang; i++){
-                              var id = response[i]['id'];
-                              var name = response[i]['name'];
-                              
-                              $("#regency").append("<option value='"+id+"'>"+name+"</option>");
+                  $("#regency").empty();
+                  for( var i = 0; i<panjang; i++){
+                      var id = response[i]['id'];
+                      var name = response[i]['name'];
+                      
+                      $("#regency").append("<option value='"+id+"'>"+name+"</option>");
 
-                          }
-                      }
-                  });
-              });
-            });
-  </script>
+                  }
+              }
+          });
+      });
 
-  <!-- Hidden Onclick Section -->
-  <script type="text/javascript">
+      var urlLink = './src/scripts/data/chart/chart-currentMonth.php';
+
+      // $.ajax({
+      //   url: urlLink,
+      //   type: 'get',
+      //   dataType: 'json',
+      //   success: function(response) {
+      //     $("#currentChartDisaster").empty();
+      //     $("#currentChartDisaster").append("<h2>Jumlah Bencana Terjadi Bulan Ini</h2>");
+      //       for (var i=0; i<response.length; i++) {
+      //         console.log(response);
+      //         $('#currentChartDisaster').html("<h3>"+response[i]['disasterName']+" : "+response[i]['disasterCount']+"</h3>");
+      //         // $("#currentChartDisaster").append("<h3>"+response[i]['disasterName']+" : "+response[i]['disasterCount']+"</h3>");
+      //       }
+      //   }
+      // });
+
+      $.getJSON(urlLink, function(data){
+        var disasterData = '';
+
+        $("#currentChartDisaster").empty();
+        $("#currentChartDisaster").append("<h2>Jumlah Bencana Terjadi Bulan Ini</h2>");
+
+        $.each(data,function(key, value){
+          var type = value.disastertype.replace(/ /g, "").toUpperCase();
+          var count = value.disastertype_total;
+          console.log(type);
+          disasterData += "<h3><img src='./src/public/image/disaster-icon/"+type+".svg' width='80px' height='80px' alt='"+type+"'> : "+count+"</h3>";
+        })
+        $('#currentChartDisaster').append(disasterData);
+      });
+
+      // async function getcurrentChartDisaster(){
+      //   const response = await fetch(urlLink);
+      //   const data = await response.json();
+      //   console.log(data);
+      // }
+
+      // getcurrentChartDisaster();
+
+    });
+
     function statisticsShows() {
       var x = document.getElementById("map");
       var y = document.getElementById("statistics");
@@ -359,32 +398,6 @@
         y.style.display = "block";
       }
     }
-  </script>
-
-  <!-- Ajax to show Current Disaster -->
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $.ajax({
-        url: "./src/scripts/data/chart/chart-currentMonth.php",
-        method: "post",
-        dataType: "json",
-        success: function(response) {
-
-          var len = response.length;
-
-          $("#currentChartDisaster").empty();
-          $("#currentChartDisaster").append("<h2>Jumlah Bencana Terjadi Bulan Ini</h2>");
-            for (var i=0; i<len; i++) {
-              var name = response[i]['disasterName'];
-              var count = response[i]['disasterCount'];
-              console.log(response);
-              $("#currentChartDisaster").append("<h3>"+id+" : "+name+"</h3>");
-            }
-            
-        },
-        error: function(response,text){console.log('Error:' + text);}
-      });
-    });
   </script>
 </body>
 </html>

@@ -9,17 +9,17 @@
     
     $response = mysqli_query($koneksi, $sql);
     if ( mysqli_num_rows($response) > 0) {
+
+        $disasterData =array();
+        // $disastertype = array();
+        // $disastertype_total = array();
         
-        $disastertype = array();
-        $disastertype_total = array();
         while($row = mysqli_fetch_assoc($response)){
-            $disastertype[] = $row['disastertype'];
-            $disastertype_total[] = $row['disastertype_total'];
+            $disasterData[] = $row;
+            // $disastertype[] = $row['disastertype'];
+            // $disastertype_total[] = $row['disastertype_total'];
         }
 
-        $result['disasterName'] = $disastertype;
-        $result['disasterCount'] = $disastertype_total;
-
-        echo json_encode($result, JSON_PRETTY_PRINT);
+        echo json_encode($disasterData, JSON_PRETTY_PRINT);
     }
 ?>

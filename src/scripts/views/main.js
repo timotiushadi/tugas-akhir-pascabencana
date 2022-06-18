@@ -119,8 +119,10 @@ const main = () => {
       dataType: "html",
       data:{data:id},
       success: function(){
-        location.reload();
         alert('idlogs ' + id + ' deleted');
+        setTimeout(function(){
+          location.reload();
+        }, 1000)
       }
     });
   }

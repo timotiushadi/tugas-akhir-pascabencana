@@ -127,15 +127,11 @@
           <input type="password" id="password" name="password" placeholder="Enter Password">
           <i class="bi bi-eye-slash" id="togglePassword"></i>
         </div>
-        <div class="form-element">
-          <input type="checkbox" id="rememberMe">
-          <label for="rememberMe">Remember Me</label>
-        </div>
+        <?php if(!empty($_SESSION['error'])){ ?>
+        <div id="error_message"><p style="color:red"><?php echo $_SESSION['error'] ?></p></div>
+        <?php unset($_SESSION['error']); } ?>
         <div class="form-element">
           <button type="submit" name="login">Log In</button>
-        </div>
-        <div class="form-element">
-          <a href="#">Forgot Password</a>
         </div>
       </form>
     </div>
@@ -302,7 +298,6 @@
   <div id="map"></div>
 </main>
 
-
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></script>
@@ -312,11 +307,11 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.0/chart.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script> -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-  <!-- Autopopulate Section -->
+  
   <script type="text/javascript">
+    // Autopopulate Section
     $(document).ready(function(){
       $("#province").change(function(){
           var regenID = $(this).val();
@@ -342,8 +337,6 @@
           });
       });
 
-      var urlLink = './src/scripts/data/chart/chart-currentMonth.php';
-
       // $.ajax({
       //   url: urlLink,
       //   type: 'get',
@@ -359,6 +352,9 @@
       //   }
       // });
 
+      // Current Month Chart Section
+
+      var urlLink = './src/scripts/data/chart/chart-currentMonth.php';
       $.getJSON(urlLink, function(data){
         var disasterData = '';
 
@@ -366,24 +362,18 @@
         $("#currentChartDisaster").append("<h2>Jumlah Bencana Terjadi Bulan Ini</h2>");
 
         $.each(data,function(key, value){
-          var type = value.disastertype.replace(/ /g, "").toUpperCase();
+          var type = value.disastertype.toUpperCase();
           var count = value.disastertype_total;
           console.log(type);
-          disasterData += "<h3><img src='./src/public/image/disaster-icon/"+type+".svg' width='80px' height='80px' alt='"+type+"'> : "+count+"</h3>";
+          disasterData += "<h3><img src='./src/public/image/chart-disasterIcon/"+type.replace(/ /g, "")+".png' width='40px' height='40px' alt='"+type+"' title='"+type+"'> : "+count+"</h3>";
         })
+
         $('#currentChartDisaster').append(disasterData);
       });
 
-      // async function getcurrentChartDisaster(){
-      //   const response = await fetch(urlLink);
-      //   const data = await response.json();
-      //   console.log(data);
-      // }
-
-      // getcurrentChartDisaster();
-
     });
 
+    // Hidden Element onClick Section
     function statisticsShows() {
       var x = document.getElementById("map");
       var y = document.getElementById("statistics");

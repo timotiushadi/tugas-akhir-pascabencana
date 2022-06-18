@@ -16,5 +16,9 @@
         }
     
         $error = true;
+        if(isset($error)){
+            $_SESSION['error'] = 'Incorrect username or password';
+            header("Location: index.php");
+        };
     }
 ?>

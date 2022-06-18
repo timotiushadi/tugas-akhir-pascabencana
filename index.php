@@ -364,7 +364,6 @@
         $.each(data,function(key, value){
           var type = value.disastertype.toUpperCase();
           var count = value.disastertype_total;
-          console.log(type);
           disasterData += "<h3><img src='./src/public/image/chart-disasterIcon/"+type.replace(/ /g, "")+".png' width='40px' height='40px' alt='"+type+"' title='"+type+"'> : "+count+"</h3>";
         })
 

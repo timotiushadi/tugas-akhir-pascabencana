@@ -77,6 +77,7 @@ const main = () => {
       LeftBar.showDisasterList(disaster);
       LeftBar.showDisasterCheckbox();
       checkboxDisaster();
+      deleteRow(id);
     });
     firstTime = false;
   }
@@ -109,7 +110,17 @@ const main = () => {
     });
   }
 
-
+  function deleteRow(id){
+    $.ajax({
+      type:'post',
+      url: '../../../delete.php',
+      data:{data:id},
+      success: function(){
+          alert('deleted');
+      }
+    });
+  }
+  
   //detail button event
   function detailButtonClicked(map, disaster) {
     map.on('popupopen', function() {
@@ -127,7 +138,30 @@ const main = () => {
             popUpOpen.classList.add('active');
             if(!disasterDetailContainer.classList.contains('disaster-open')){
               disasterDetailContainer.classList.toggle('disaster-open');
-             }
+            }
+          });
+        }
+      });
+    });
+  }
+
+  function deleteButtonClicked(map, disaster) {
+    map.on('popupopen', function() {
+      let button = document.querySelectorAll('.popup-disaster-delete-button');
+      disaster.forEach((marker, i) => {
+        let getButtonId = '#delete-button-' + marker.id_logs;
+        let popUpOpen = document.querySelector(`${getButtonId}`);
+        let disasterDetailContainer = document.querySelector('#delete-detail-container');
+        if(popUpOpen != null) {
+          popUpOpen.addEventListener('click', function () {
+            RightBar.setDetail(marker);
+            for(let i =0; i <button.length; i++){
+              button[i].classList.remove('active');
+            }
+            popUpOpen.classList.add('active');
+            if(!disasterDetailContainer.classList.contains('disaster-open')){
+              disasterDetailContainer.classList.toggle('disaster-open');
+            }
           });
         }
       });
@@ -218,15 +252,6 @@ const main = () => {
     event.stopPropagation();
   });
 
-//   var values = [1, 3, 20, 7, 30];
-// // $('#slider1').on('input', e => $('span').text(values[e.target.value]));
-// const slideButton = document.querySelector('#slideBencana');
-// slideButton.addEventListener("change", function(event) {
-//   // console.log(event.target.value);
-//   console.log(values[event.target.name]);
-
-// });
-
 }
 
 document.querySelector("#show-login").addEventListener("click", function(event) {
@@ -257,27 +282,4 @@ togglePassword.addEventListener("click", function () {
     this.classList.toggle("bi-eye");
 });
 
-// // prevent form submit
-// const form = document.querySelector("form");
-// form.addEventListener('submit', function (e) {
-//     e.preventDefault();
-// });
-
 export default main;
-/*
-  Jenis Bencana :
-  typeid /disastertype
-
-  TORNADO / Angin Puting Beliung
-  FLOOD / Banjir
-  LANDSLIDE / Tanah Longsor
-  EARTHQUAKE / Gempa Bumi
-  TSUNAMI / Tsunami
-  HIGHSURF / Gelombang Tinggi
-  DROUGHT / Kekeringan
-  WILDFIRE / Kebakaran Hutan
-  INCIDENT / Kejadian Lain
-  VOLCANO / Letusan Gunung Api
-  HIGHWIND / Angin Kencang
-
-*/

@@ -27,7 +27,8 @@ class DisasterData {
               <h4 class="popup-disaster-name">${marker.disastertype.toUpperCase()}</h4>
               <p class="popup-disaster-detail">${marker.eventdate}</p>
               <p class="popup-disaster-detail">${marker.regency_city.split(' ').reverse().join(' ')}</p>
-              <button type="submit" class="popup-disaster-detail-button" id="detail-button-${marker.id_logs}" data-id="${marker.id_logs}">Detail Bencana</button>
+              <button type="submit" class="popup-disaster-detail-button" id="detail-button-${marker.id_logs}" data-id="${marker.id_logs}">Detail Bencana</button><br><br>
+              <button class="popup-disaster-delete-button" id="delete-button-${marker.id_logs}" data-id="${marker.id_logs}" onclick="deleteRow(${marker.id_logs})">Delete</button>
             </div>
           `;
           markers.push({
@@ -53,7 +54,7 @@ class DisasterData {
           });
         } else {
           shouldSkip = true;
-           return;
+          return;
         }
       }
     });

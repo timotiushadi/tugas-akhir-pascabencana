@@ -211,19 +211,19 @@
         </div>
         <div class="form-element">
           <label for="dead">Dead</label>
-          <input type="number" name="dead" placeholder="0">
+          <input type="number" name="dead" min="0" placeholder="0">
         </div>
         <div class="form-element">
           <label for="missing">Missing</label>
-          <input type="number" name="missing" placeholder="0">
+          <input type="number" name="missing" min="0" placeholder="0">
         </div>
         <div class="form-element">
           <label for="serious_wounds">Serious Wounds</label>
-          <input type="number" name="serious_wounds" placeholder="0">
+          <input type="number" name="serious_wounds" min="0" placeholder="0">
         </div>
         <div class="form-element">
           <label for="minor_injuries">Minor_injuries</label>
-          <input type="number" name="minor_injuries" placeholder="0">
+          <input type="number" name="minor_injuries" min="0" placeholder="0">
         </div>
         <div class="form-element">
           <label for="damage">Damage</label>

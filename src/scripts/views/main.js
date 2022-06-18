@@ -64,6 +64,10 @@ const main = () => {
     return disaster;
   }
 
+  map.on('click', function(e) {
+    alert("Latitude : " + e.latlng.lat + " Longitude :  " + e.latlng.lng)
+  });
+
   function updateMarker() {
     getData().then((disaster) => {
       if(!firstTime) {

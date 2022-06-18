@@ -1,16 +1,16 @@
 <?php
+header("Refresh:0");
     session_start();
-    require 'koneksi.php';
+    require './koneksi.php';
+    $id = intval($_GET['data']);
+    $delete = mysqli_query($koneksi, "DELETE FROM tb_disasterlogs WHERE id_logs = $id");
 
-    if(isset($_POST['id'])){
-        $id = $_POST['id'];
-    
-        $result = mysqli_query($koneksi, "SELECT * FROM tb_disasterlogs WHERE id_logs = '$id'");
-        $delete = mysqli_query($koneksi, "DELETE FROM tb_disasterlogs WHERE id_logs = '$id'");
-        if(mysqli_num_rows($result) == 1){  
-            mysqli_query($koneksi,$delete);
-            header("Location: index.php");
+    if ($koneksi->query($delete) === TRUE) {
+        echo "Record deleted successfully";
+        header("Location: index.php");
             exit();
-        }
+    } else {
+    echo "Error deleting record: " . $koneksi->error;
     }
+
 ?>

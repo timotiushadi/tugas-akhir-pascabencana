@@ -74,10 +74,11 @@ const main = () => {
       }
       showMarker(map, disaster);
       detailButtonClicked(map,disaster);
+      deleteButtonClicked(map,disaster);
       LeftBar.showDisasterList(disaster);
       LeftBar.showDisasterCheckbox();
       checkboxDisaster();
-      deleteRow(id);
+      // deleteRow(id);
     });
     firstTime = false;
   }
@@ -111,12 +112,15 @@ const main = () => {
   }
 
   function deleteRow(id){
+    console.log(id);
     $.ajax({
-      type:'post',
-      url: '../../../delete.php',
+      type:'GET',
+      url: '../tugas-akhir-pascabencana/delete.php',
+      dataType: "html",
       data:{data:id},
       success: function(){
-          alert('deleted');
+        location.reload();
+        alert('idlogs ' + id + ' deleted');
       }
     });
   }
@@ -149,19 +153,17 @@ const main = () => {
     map.on('popupopen', function() {
       let button = document.querySelectorAll('.popup-disaster-delete-button');
       disaster.forEach((marker, i) => {
+      
         let getButtonId = '#delete-button-' + marker.id_logs;
         let popUpOpen = document.querySelector(`${getButtonId}`);
-        let disasterDetailContainer = document.querySelector('#delete-detail-container');
         if(popUpOpen != null) {
           popUpOpen.addEventListener('click', function () {
             RightBar.setDetail(marker);
             for(let i =0; i <button.length; i++){
+              deleteRow(marker.id_logs);
               button[i].classList.remove('active');
             }
             popUpOpen.classList.add('active');
-            if(!disasterDetailContainer.classList.contains('disaster-open')){
-              disasterDetailContainer.classList.toggle('disaster-open');
-            }
           });
         }
       });

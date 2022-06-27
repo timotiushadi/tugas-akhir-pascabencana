@@ -2,7 +2,6 @@
 
   session_start();
   include 'koneksi.php';
-  // include './src/scripts/data/filtered-data-statistics.php';
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +20,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link rel="shortcut icon" href="#">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      
+
 </head>
 <body>
 
@@ -96,6 +95,8 @@
   <div id="drawer-leftbar" class="drawer-leftbar">
     <div class="nav-header">Jenis Bencana</div>
     <div id="drawer-leftbar-content"></div>
+    <div class="nav-header">Level Bencana</div>
+    <div id="drawer-leftbar-content-filter"></div>
 
     <!-- <label for="vol">Filter Bencana :</label><br>
     <input type="range" id="slideBencana" name="vol" min="1" max="30"> -->
@@ -275,12 +276,11 @@
 </div>
 
 <div class="canvas-container" id="statistics">
-  <div class="canvas-element style:height: 260px;">
-    <canvas id="barChart"></canvas>
+  <div class="canvas-element">
+    <canvas id="barChart" width="800px" height="400px" style="padding-left: 0; padding-right: 0; margin-left: auto; margin-right: auto;"></canvas>
   </div>
   
   <div class="canvas-element" style="text-align: center;" id="currentChartDisaster">
-    
   </div>
 
   <div class="canvas-element" style="float:left; width: 45%; height: 260px;">
@@ -308,7 +308,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.0/chart.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
   
   <script type="text/javascript">
     // Autopopulate Section
@@ -337,21 +339,6 @@
           });
       });
 
-      // $.ajax({
-      //   url: urlLink,
-      //   type: 'get',
-      //   dataType: 'json',
-      //   success: function(response) {
-      //     $("#currentChartDisaster").empty();
-      //     $("#currentChartDisaster").append("<h2>Jumlah Bencana Terjadi Bulan Ini</h2>");
-      //       for (var i=0; i<response.length; i++) {
-      //         console.log(response);
-      //         $('#currentChartDisaster').html("<h3>"+response[i]['disasterName']+" : "+response[i]['disasterCount']+"</h3>");
-      //         // $("#currentChartDisaster").append("<h3>"+response[i]['disasterName']+" : "+response[i]['disasterCount']+"</h3>");
-      //       }
-      //   }
-      // });
-
       // Current Month Chart Section
 
       var urlLink = './src/scripts/data/chart/chart-currentMonth.php';
@@ -359,12 +346,13 @@
         var disasterData = '';
 
         $("#currentChartDisaster").empty();
-        $("#currentChartDisaster").append("<h2>Jumlah Bencana Terjadi Bulan Ini</h2>");
+        $("#currentChartDisaster").append("<h2>Jumlah Bencana Terjadi Bulan Ini</h2><br>");
 
         $.each(data,function(key, value){
           var type = value.disastertype.toUpperCase();
           var count = value.disastertype_total;
-          disasterData += "<h3><img src='./src/public/image/chart-disasterIcon/"+type.replace(/ /g, "")+".png' width='40px' height='40px' alt='"+type+"' title='"+type+"'> : "+count+"</h3>";
+          disasterData += "<span><img src='./src/public/image/chart-disasterIcon/"+type.replace(/ /g, "")+".png' width='40px' height='40px' style='margin-left:20px' alt='"+type+"' title='"+type+"'></span>";
+          disasterData +="<span style='font-weight:bold; font-size:1.2em'>"+count+"</span>";
         })
 
         $('#currentChartDisaster').append(disasterData);

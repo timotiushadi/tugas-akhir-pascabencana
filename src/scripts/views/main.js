@@ -21,6 +21,10 @@ const main = () => {
   northEast = L.latLng(-4.413385106027282, 116.98480463800202),
   bounds = L.latLngBounds(southWest, northEast);
 
+  // Array disaster / level
+  const arrayDisaster =  ["tornado","flood" ,"landslide" ,"earthquake" ,"highsurf" ,"drought" ,"wildfire" ,"incident" , "highwind" ,"volcano"];
+  const arrayLevel = ["rendah","sedang","tinggi"];
+
   const map = L.map('map', {zoomControl: false, attributionControl: false, maxBounds: bounds
   }).setView([-7.89102904, 112.6698802], 8).setZoom(9).setMinZoom(9);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -32,32 +36,91 @@ const main = () => {
   }).addTo(map);
 
   map.doubleClickZoom.disable();
-  // markerClusterGroup
-  //featureGroup
-  let tornadoLayer = L.featureGroup();
-  map.addLayer(tornadoLayer);
-  let floodLayer = L.featureGroup();
-  map.addLayer(floodLayer);
-  let landslideLayer = L.featureGroup();
-  map.addLayer(landslideLayer);
-  let earthquakeLayer = L.featureGroup();
-  map.addLayer(earthquakeLayer);
-  let tsunamiLayer = L.featureGroup();
-  map.addLayer(tsunamiLayer);
-  let highsurfLayer = L.featureGroup();
-  map.addLayer(highsurfLayer);
-  let droughtLayer = L.featureGroup();
-  map.addLayer(droughtLayer);
-  let wildfireLayer = L.featureGroup();
-  map.addLayer(wildfireLayer);
-  let incidentLayer = L.featureGroup();
-  map.addLayer(incidentLayer);
-  let volcanoLayer = L.featureGroup();
-  map.addLayer(volcanoLayer);
-  let highwindLayer = L.featureGroup();
-  map.addLayer(highwindLayer);
+
+  let tornadorendahLayer = L.featureGroup();
+  map.addLayer(tornadorendahLayer);
+  let tornadosedangLayer = L.featureGroup();
+  map.addLayer(tornadosedangLayer);
+  let tornadotinggiLayer = L.featureGroup();
+  map.addLayer(tornadotinggiLayer);
+
+  let floodrendahLayer = L.featureGroup();
+  map.addLayer(floodrendahLayer);
+  let floodsedangLayer = L.featureGroup();
+  map.addLayer(floodsedangLayer);
+  let floodtinggiLayer = L.featureGroup();
+  map.addLayer(floodtinggiLayer);
+
+  let landsliderendahLayer = L.featureGroup();
+  map.addLayer(landsliderendahLayer);
+  let landslidesedangLayer = L.featureGroup();
+  map.addLayer(landslidesedangLayer);
+  let landslidetinggiLayer = L.featureGroup();
+  map.addLayer(landslidetinggiLayer);
+  
+  let earthquakerendahLayer = L.featureGroup();
+  map.addLayer(earthquakerendahLayer);
+  let earthquakesedangLayer = L.featureGroup();
+  map.addLayer(earthquakesedangLayer);
+  let earthquaketinggiLayer = L.featureGroup();
+  map.addLayer(earthquaketinggiLayer);
+
+  let tsunamirendahLayer = L.featureGroup();
+  map.addLayer(tsunamirendahLayer);
+  let tsunamisedangLayer = L.featureGroup();
+  map.addLayer(tsunamisedangLayer);
+  let tsunamitinggiLayer = L.featureGroup();
+  map.addLayer(tsunamitinggiLayer);
+
+  let highsurfrendahLayer = L.featureGroup();
+  map.addLayer(highsurfrendahLayer);
+  let highsurfsedangLayer = L.featureGroup();
+  map.addLayer(highsurfsedangLayer);
+  let highsurftinggiLayer = L.featureGroup();
+  map.addLayer(highsurftinggiLayer);
+
+  let droughtrendahLayer = L.featureGroup();
+  map.addLayer(droughtrendahLayer);
+  let droughtsedangLayer = L.featureGroup();
+  map.addLayer(droughtsedangLayer);
+  let droughttinggiLayer = L.featureGroup();
+  map.addLayer(droughttinggiLayer);
+
+  let wildfirerendahLayer = L.featureGroup();
+  map.addLayer(wildfirerendahLayer);
+  let wildfiresedangLayer = L.featureGroup();
+  map.addLayer(wildfiresedangLayer);
+  let wildfiretinggiLayer = L.featureGroup();
+  map.addLayer(wildfiretinggiLayer);
+
+  let incidentrendahLayer = L.featureGroup();
+  map.addLayer(incidentrendahLayer);
+  let incidentsedangLayer = L.featureGroup();
+  map.addLayer(incidentsedangLayer);
+  let incidenttinggiLayer = L.featureGroup();
+  map.addLayer(incidenttinggiLayer);
+
+  let volcanorendahLayer = L.featureGroup();
+  map.addLayer(volcanorendahLayer);
+  let volcanosedangLayer = L.featureGroup();
+  map.addLayer(volcanosedangLayer);
+  let volcanotinggiLayer = L.featureGroup();
+  map.addLayer(volcanotinggiLayer);
+
+  let highwindrendahLayer = L.featureGroup();
+  map.addLayer(highwindrendahLayer);
+  let highwindsedangLayer = L.featureGroup();
+  map.addLayer(highwindsedangLayer);
+  let highwindtinggiLayer = L.featureGroup();
+  map.addLayer(highwindtinggiLayer);
 
   let firstTime = true;
+
+  let checkBoxDisaster = document.getElementsByClassName("nav-item");
+  for (var i = 0; i < checkBoxDisaster.length; ++i) {
+    let getId = checkBoxDisaster[i].childNodes[3].control;
+    console.log(getId);
+  }
 
   async function getData() {
     const disaster = await DisasterData.getAllDisaster();
@@ -65,14 +128,35 @@ const main = () => {
   }
 
   map.on('click', function(e) {
-    alert("Latitude : " + e.latlng.lat + " Longitude :  " + e.latlng.lng)
+    swal.fire({
+      title: 'Get Coordinate',
+      text: "Latitude : " + e.latlng.lat.toFixed(3) + " Longitude : " + e.latlng.lng.toFixed(3),
+      icon: 'success',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Copy to clipboard'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        copyText(e.latlng.lat.toFixed(3),e.latlng.lng.toFixed(3));
+        Swal.fire(
+          'Copied to Clipboard',
+          "<h3 id='copyText'>Latitude : " + e.latlng.lat.toFixed(3) + "<br>Longitude :  " + e.latlng.lng.toFixed(3) +"</h3>",
+          'success'
+        )
+      }
+    })
   });
 
   function updateMarker() {
     getData().then((disaster) => {
       if(!firstTime) {
         disaster.forEach((item) => {
-          let layer = item.typeid.toLowerCase() + 'Layer';
+          let layerRendah = item.typeid.toLowerCase() + 'rendahLayer';
+          eval(layerRendah).clearLayers();
+          let layerSedang = item.typeid.toLowerCase() + 'sedangLayer';
+          eval(layerSedang).clearLayers();
+          let layer = item.typeid.toLowerCase() + 'tinggiLayer';
           eval(layer).clearLayers();
         });
       }
@@ -81,8 +165,9 @@ const main = () => {
       deleteButtonClicked(map,disaster);
       LeftBar.showDisasterList(disaster);
       LeftBar.showDisasterCheckbox();
+      LeftBar.showLevelCheckbox();
       checkboxDisaster();
-      // deleteRow(id);
+      checkboxLevelDisaster();
     });
     firstTime = false;
   }
@@ -97,7 +182,19 @@ const main = () => {
   //show marker
   function showMarker(map, disaster){
     disaster.forEach((disasterMarker) => {
-      let MarkerCluster = eval(disasterMarker.typeid.toLowerCase() + "Layer" );
+      let Cluster;
+      if(disasterMarker.level == "RENDAH"){
+        Cluster = disasterMarker.typeid.toLowerCase() + disasterMarker.level.toLowerCase() +"Layer";
+      }
+      else if(disasterMarker.level == "SEDANG"){
+        Cluster = disasterMarker.typeid.toLowerCase() + disasterMarker.level.toLowerCase() +"Layer";
+      }
+      else if(disaster.level == "TINGGI"){
+        Cluster = disasterMarker.typeid.toLowerCase() + disasterMarker.level.toLowerCase() +"Layer" ;
+      }
+
+      let MarkerCluster = eval(Cluster);
+      
       let marker = L.marker(disasterMarker.pos, {
             icon: L.icon({
                 iconUrl: disasterMarker.iconUrl,
@@ -106,7 +203,7 @@ const main = () => {
             }),
             draggable:true
         }).addTo(MarkerCluster),
-        popUp = new L.Popup({ autoClose: false, closeOnClick: false })
+        popUp = new L.Popup({ autoClose: true, closeOnClick: false })
                 .setContent(disasterMarker.popup)
                 .setLatLng(disasterMarker.pos);
         map.addLayer(marker);
@@ -117,18 +214,33 @@ const main = () => {
 
   function deleteRow(id){
     console.log(id);
-    $.ajax({
-      type:'GET',
-      url: '../tugas-akhir-pascabencana/delete.php',
-      dataType: "html",
-      data:{data:id},
-      success: function(){
-        alert('idlogs ' + id + ' deleted');
-        setTimeout(function(){
-          location.reload();
-        }, 1000)
+    swal({
+      title: "Apakah anda yakin?",
+      text: "Data yang dihapus tidak bisa dikembalikan!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+          type:'GET',
+          url: '../tugas-akhir-pascabencana/delete.php',
+          dataType: "html",
+          data:{data:id},
+          success: function(){
+            swal("Log ID " + id +  " Terhapus", {
+              icon: "success",
+            });
+            setTimeout(function(){
+              location.reload();
+            }, 1500)
+          }
+        });
+      } else {
+        swal("Hapus data gagal");
       }
-    });
+    });  
   }
   
   //detail button event
@@ -183,14 +295,40 @@ const main = () => {
       let getId = checkBoxDisaster[i].childNodes[3].control;
       getId.addEventListener('click', function() {
         if (!this.checked) {
-          map.removeLayer(eval(getId.id));
+          arrayLevel.forEach((level) => {
+            map.removeLayer(eval(getId.id+level+"Layer"));
+          });
+          arrayDisaster.splice(arrayDisaster.findIndex((arrayDisaster) => arrayDisaster === getId.id), 1);
         } else {
-          map.addLayer(eval(getId.id));
+          arrayLevel.forEach((level) => {
+            map.addLayer(eval(getId.id+level+"Layer"));
+          });
+          arrayDisaster.push(getId.id);
         }
       });
     }
   }
 
+  function checkboxLevelDisaster() {
+    let checkboxLevelDisaster = document.getElementsByClassName("nav-item-level");
+    for (var i = 0; i < checkboxLevelDisaster.length; ++i) {
+      let getLevel = checkboxLevelDisaster[i].childNodes[3].control;
+      getLevel.addEventListener('click', function() {
+        if (!this.checked) {
+          arrayDisaster.forEach((disaster) => {
+            map.removeLayer(eval(disaster+getLevel.id+"Layer"));
+          });
+          arrayLevel.splice(arrayLevel.findIndex((arrayLevel) => arrayLevel === getLevel.id), 1);
+        } else {
+          arrayDisaster.forEach((disaster) => {
+            map.addLayer(eval(disaster+getLevel.id+"Layer"));
+          });
+          arrayLevel.push(getLevel.id);
+        }
+      });
+    }
+  }
+  
   hamburgerButton.addEventListener('click', function (event) {
     sideBarNav.classList.toggle('sidebar-nav-open');
     if(drawerLeftBar.classList.contains('leftbar-open')) {
@@ -289,5 +427,10 @@ togglePassword.addEventListener("click", function () {
     // toggle the icon
     this.classList.toggle("bi-eye");
 });
+
+function copyText(x,y) {
+  
+  navigator.clipboard.writeText(x +" , "+ y);
+} 
 
 export default main;

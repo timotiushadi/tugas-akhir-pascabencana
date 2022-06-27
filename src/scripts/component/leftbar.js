@@ -20,14 +20,36 @@ class LeftBar {
       const listDisasterElement = document.createElement('div');
       listDisasterElement.setAttribute('class', 'nav-item');
       listDisasterElement.innerHTML = `
-          <img src="./src/public/image/disaster-icon/${disaster[0].toUpperCase()}.svg" alt="${disaster[0]}Layer">
-          <label class="nav-item-layer" for="${disaster[0]}Layer">${disaster[1]}</label>
+          <img src="./src/public/image/disaster-icon/${disaster[0].toUpperCase()}.svg" alt="${disaster[0]}">
+          <label class="nav-item-layer" for="${disaster[0]}">${disaster[1]}</label>
           <label class="switch">
-            <input type="checkbox"  id="${disaster[0]}Layer" checked>
+            <input type="checkbox"  id="${disaster[0]}" checked>
             <span class="slider round"></span>
           </label>
       `;
       listDisaster.appendChild(listDisasterElement);
+    });
+  }
+
+  static showLevelCheckbox() {
+    let listLevel = document.querySelector('#drawer-leftbar-content-filter');
+    let levelName = [
+      ["rendah","RENDAH"],
+      ["sedang" , "SEDANG"],
+      ["tinggi" , "TINGGI"]
+    ];
+    listLevel.innerHTML = '';
+    levelName.forEach((level) => {
+      const listLevelElement = document.createElement('div');
+      listLevelElement.setAttribute('class', 'nav-item-level');
+      listLevelElement.innerHTML = `
+          <label class="nav-item-layer" for="${level[0]}">${level[1]}</label>
+          <label class="switch">
+            <input type="checkbox"  id="${level[0]}" checked>
+            <span class="slider round"></span>
+          </label>
+      `;
+      listLevel.appendChild(listLevelElement);
     });
   }
 

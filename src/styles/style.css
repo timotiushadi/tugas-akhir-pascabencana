@@ -139,6 +139,7 @@ a {
 }
 
 
+
 /* left-bar checkbox disaster layer */
  .drawer-leftbar {
   padding: 10px;
@@ -187,6 +188,24 @@ a {
 }
 
 .nav-item img {
+  display: block;
+  width: 20px;
+  float: left;
+  margin-right: 10px;
+  margin-top: -1px;
+}
+
+.nav-item-level {
+  line-height: 14px;
+  display: list-item;
+  width: 100%;
+  text-align: left;
+  font-size: 12px;
+  list-style: none;
+  margin-bottom: 15px;
+}
+
+.nav-item-level img {
   display: block;
   width: 20px;
   float: left;
@@ -358,6 +377,29 @@ a {
 }
 
 .popup-disaster-detail-button.active {
+  background-color: green;
+  cursor: pointer;
+}
+
+.popup-disaster-update-button {
+  border: solid black;
+  text-align:  center;
+  font-size: 12px;
+  border-radius: 10px;
+  width: 100%;
+  background-color: #5cb85c;
+  border: 1px solid transparent;
+  color: white;
+  padding: 0.7em;
+  text-decoration: none;
+}
+
+.popup-disaster-update-button:hover {
+  background-color: green;
+  cursor: pointer;
+}
+
+.popup-disaster-update-button.active {
   background-color: green;
   cursor: pointer;
 }

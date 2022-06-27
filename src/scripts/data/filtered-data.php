@@ -8,7 +8,7 @@ $sql = "SELECT * FROM v_disasterlogs_all";
   if ( mysqli_num_rows($response) > 0) {
     $result = array();
 
-    $days= date('Y-m-d h:i:s', strtotime('-5 days'));
+    $days= date('Y-m-d h:i:s', strtotime('-30 days'));
 
       while( $row = mysqli_fetch_assoc($response))
       {
@@ -27,5 +27,3 @@ $sql = "SELECT * FROM v_disasterlogs_all";
   }
 
 ?>
-
-

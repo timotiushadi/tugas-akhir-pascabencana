@@ -39,7 +39,7 @@
                         }
                     },
                     animatescale: true,
-                    responsive: true,
+                    responsive: false,
                     // maintainAspectRatio: false
                     title: {
                         display: true,

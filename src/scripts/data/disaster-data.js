@@ -24,13 +24,22 @@ class DisasterData {
           iconUrl = 'src/public/image/disaster-icon/'+ marker.typeid +'.svg';
             let popups = `
             <div id="popup-marker" class="popup-marker-container">
-              <h4 class="popup-disaster-name">${marker.disastertype.toUpperCase()}</h4>
+              <h4 class="popup-disaster-name">${marker.disastertype.toUpperCase()}</h4><br>
+              <div class="popup-disaster-detail">
+                <h3>Status</h3>
+                <div class="disaster-detail-status " style="background-color:${marker.status == "BELUM" ? 'red' : 'green'};">
+                ${marker.status}
+                </div>
+              </div>
               <p class="popup-disaster-detail">${marker.eventdate}</p>
               <p class="popup-disaster-detail">${marker.regency_city.split(' ').reverse().join(' ')}</p>
               <button type="submit" class="popup-disaster-detail-button" id="detail-button-${marker.id_logs}" data-id="${marker.id_logs}">Detail Bencana</button><br><br>
               <button type="submit" 
               class="popup-disaster-delete-button" 
-              id="delete-button-${marker.id_logs}" data-id="${marker.id_logs}">Delete</button>
+              id="delete-button-${marker.id_logs}" data-id="${marker.id_logs}">Delete</button><br><br>
+              <button type="submit" 
+              class="popup-disaster-update-button"
+              id="update-button-${marker.id_logs}" data-id="${marker.id_logs}" data-status="${marker.status}">Update</button>
             </div>
           `;
           markers.push({

@@ -5,7 +5,7 @@
         $id = $_POST['id'];
         $status = $_POST['status'];
     
-        $result = "UPDATE tb_disasterlogs SET status = $status WHERE tb_disasterlogs.id_logs = $id";  
+        $result = "UPDATE tb_disasterlogs SET status = '$status' WHERE id_logs = '$id'";  
 
         $upload = mysqli_query($koneksi, $result);
 

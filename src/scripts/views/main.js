@@ -163,6 +163,7 @@ const main = () => {
       showMarker(map, disaster);
       detailButtonClicked(map,disaster);
       deleteButtonClicked(map,disaster);
+      updateButtonClicked(map,disaster);
       LeftBar.showDisasterList(disaster);
       LeftBar.showDisasterCheckbox();
       LeftBar.showLevelCheckbox();
@@ -213,34 +214,78 @@ const main = () => {
   }
 
   function deleteRow(id){
-    console.log(id);
-    swal({
-      title: "Apakah anda yakin?",
-      text: "Data yang dihapus tidak bisa dikembalikan!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
+    swal.fire({
+      title: 'Are u sure?',
+      text: "IDLogs "+id+" akan terhapus",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: "I'm sure"
+    }).then((willDelete) => {
+      if (willDelete.isConfirmed) {
         $.ajax({
           type:'GET',
           url: '../tugas-akhir-pascabencana/delete.php',
           dataType: "html",
           data:{data:id},
           success: function(){
-            swal("Log ID " + id +  " Terhapus", {
-              icon: "success",
-            });
+            swal.fire(
+              'Deleted Data',
+              "Log ID " + id +  " Terhapus",
+              'success'
+            );
+            setTimeout(function(){
+              location.reload();
+            }, 1500)
+          }
+        });
+      }
+      else{
+        swal.fire("Hapus data gagal")
+      }
+    }) 
+  }
+
+  function updateStatus(id, value){
+    console.log(id, value);
+    if(value == "SELESAI"){
+      value = "BELUM";
+    }
+    else{
+      value = "SELESAI";
+    }
+    swal.fire({
+      title: 'Changing Status',
+      text: "Status IDLogs "+id+" akan diubah",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: "I'm sure"
+    })
+    .then((willUpdate) => {
+      if (willUpdate.isConfirmed) {
+        
+        $.ajax({
+          type:'GET',
+          url: '../tugas-akhir-pascabencana/edit-status.php',
+          dataType: "html",
+          data:{id:id, status:value},
+          success: function(){
+            swal.fire(
+              'Updated Data',
+              "Log ID " + id +  " Terubah",
+              'success');
             setTimeout(function(){
               location.reload();
             }, 1500)
           }
         });
       } else {
-        swal("Hapus data gagal");
+        swal.fire("Ubah data gagal");
       }
-    });  
+    });
   }
   
   //detail button event
@@ -279,6 +324,27 @@ const main = () => {
             RightBar.setDetail(marker);
             for(let i =0; i <button.length; i++){
               deleteRow(marker.id_logs);
+              button[i].classList.remove('active');
+            }
+            popUpOpen.classList.add('active');
+          });
+        }
+      });
+    });
+  }
+
+  function updateButtonClicked(map, disaster) {
+    map.on('popupopen', function() {
+      let x;
+      let button = document.querySelectorAll('.popup-disaster-update-button');
+      disaster.forEach((marker, i) => {     
+        let getButtonId = '#update-button-' + marker.id_logs;
+        let popUpOpen = document.querySelector(`${getButtonId}`);
+        if(popUpOpen != null) {
+          popUpOpen.addEventListener('click', function () {
+            RightBar.setDetail(marker);
+            for(let i =0; i <button.length; i++){
+              updateStatus(marker.id_logs, marker.status);
               button[i].classList.remove('active');
             }
             popUpOpen.classList.add('active');
@@ -429,7 +495,6 @@ togglePassword.addEventListener("click", function () {
 });
 
 function copyText(x,y) {
-  
   navigator.clipboard.writeText(x +" , "+ y);
 } 
 

@@ -1,21 +1,19 @@
 <?php
     require 'koneksi.php';
 
-    if(isset($_POST['upload-data'])){
-        $id = $_POST['id'];
-        $status = $_POST['status'];
-    
-        $result = "UPDATE tb_disasterlogs SET status = '$status' WHERE id_logs = '$id'";  
+    $id = $_POST['id'];
+    $status = $_POST['status'];
 
-        $upload = mysqli_query($koneksi, $result);
+    $result = "UPDATE tb_disasterlogs SET status = '$status' WHERE id_logs = '$id'";  
 
-        if($upload){
-            sleep(2);
-            header('Location: index.php');
-            exit();            
-        }
-        else{
-            die("Error : ".mysqli_error($koneksi));
-        }
+    $upload = mysqli_query($koneksi, $result);
+
+    if($upload){
+        sleep(2);
+        header('Location: index.php');
+        exit();            
+    }
+    else{
+        die("Error : ".mysqli_error($koneksi));
     }
 ?>

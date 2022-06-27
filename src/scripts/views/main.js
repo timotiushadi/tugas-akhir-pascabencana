@@ -249,15 +249,16 @@ const main = () => {
 
   function updateStatus(id, value){
     console.log(id, value);
-    if(value == "SELESAI"){
-      value = "BELUM";
+    var x;
+    if(value === "SELESAI"){
+      x = "BELUM";
     }
     else{
-      value = "SELESAI";
+      x = "SELESAI";
     }
     swal.fire({
       title: 'Changing Status',
-      text: "Status IDLogs "+id+" akan diubah",
+      text: "Status IDLogs "+id+" akan diubah dengan value: "+x,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -268,10 +269,10 @@ const main = () => {
       if (willUpdate.isConfirmed) {
         
         $.ajax({
-          type:'GET',
+          type:'POST',
           url: '../tugas-akhir-pascabencana/edit-status.php',
           dataType: "html",
-          data:{id:id, status:value},
+          data:{id:id, status:x},
           success: function(){
             swal.fire(
               'Updated Data',

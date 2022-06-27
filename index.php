@@ -245,7 +245,7 @@
         <div class="form-element">
           <label for="status">Status</label>
           <select name="status" id="status">
-            <option value="SUDAH">SUDAH</option>
+            <option value="SELESAI">SELESAI</option>
             <option value="BELUM">BELUM</option>
           </select>
         </div>

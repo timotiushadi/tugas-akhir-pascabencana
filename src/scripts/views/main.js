@@ -258,7 +258,7 @@ const main = () => {
     }
     swal.fire({
       title: 'Changing Status',
-      text: "Status IDLogs "+id+" akan diubah dengan value: "+x,
+      text: "Status IDLogs "+id+" akan diubah dengan menjadi "+x,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
